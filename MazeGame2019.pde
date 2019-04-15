@@ -1,7 +1,7 @@
-Room1 room1;
+Room room1;
 Room room2; 
 Room room3;
-Room4 room4;
+Room room4;
 
 RoomItem player1;
 
@@ -31,18 +31,20 @@ void setup(){
                         */
    int[][] player1Data = {{0}};
    player1.setData(player1Data);
-   room1.addItem( player1 );
+   room1.addItem( player1 , 0, 0);
   // room1.addLayer( layer );
    //room1.addItem(guy);
+  
    
    
 }
 
 void draw(){
   background(0);
- 
+  
  if(room1 != null && room1_active){
    room1.show();
+  
  }
  
  
@@ -59,6 +61,13 @@ void draw(){
  }
   
   
+}
+
+
+void mousePressed(){
+   room2 =  new Room(20, 350 , height / size - 25, width / size - 25, size);
+   room3 = new Room(350, 350 , height / size - 25, width / size - 25, size);
+   room4 = new Room(350, 20 , height / size - 25, width / size - 25, size);
 }
 
 void keyPressed() {
@@ -79,15 +88,9 @@ void keyPressed() {
   if(player1.row() >= 14 && player1.col() == 0){
     room1.removeItem(player1);
     room1_active = false; 
-    room2.addItem(player1);
+    room2.addItem(player1,10,10);
     
   }
   
   
-}
-
-void mousePressed(){
-   room2 =  new Room(20, 350 , height / size - 25, width / size - 25, size);
-   room3 = new Room(350, 350 , height / size - 25, width / size - 25, size);
-   room4 = new Room4(350, 20 , height / size - 25, width / size - 25, size);
 }

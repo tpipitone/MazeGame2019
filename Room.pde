@@ -3,6 +3,8 @@
   Room Class
  */
 public class Room {
+  int xLoc;
+  int yLoc;
 
   int x_pos, y_pos;  
   int cellSize;
@@ -20,10 +22,16 @@ public class Room {
     items = new ArrayList<RoomItem>();
   }
 
-  public void addItem(RoomItem item){
+  public void addItem(RoomItem item, int newRow, int newCol){
+    xLoc = newRow;
+    yLoc = newCol; 
     items.add(item); 
     item.setBounds(rows, cols);
+       
+    
   }
+  
+  
   
   public void removeItem(RoomItem item){
     items.remove(item);
@@ -47,12 +55,15 @@ public class Room {
       }
     }
 
+    
     //Draw each item on the Room
+    
     for(RoomItem item: items){
-        int xAt = item.col()*cellSize;
-        int yAt = item.row()*cellSize;
-        item.show(xAt, yAt, cellSize);      
+         xLoc = item.col() * cellSize;
+         yLoc = item.row()* cellSize;
+        item.show(xLoc, yLoc, cellSize);      
     }    
+    
 
     popMatrix();
   }  
