@@ -1,10 +1,10 @@
 
-/*
-  Room Class
- */
 public class Room {
+  
+  
   int xLoc;
   int yLoc;
+  boolean active;
 
   int x_pos, y_pos;  
   int cellSize;
@@ -22,18 +22,22 @@ public class Room {
     items = new ArrayList<RoomItem>();
   }
 
-  public void addItem(RoomItem item, int newRow, int newCol){
-    xLoc = newRow;
-    yLoc = newCol; 
+  public void addItem(RoomItem item, int newRow, int newCol) {
+    item.newCol(newCol);
+    item.newRow(newRow);
     items.add(item); 
     item.setBounds(rows, cols);
-       
-    
+  }
+
+  public void set_active(boolean is_active){
+    active = is_active;
   }
   
-  
-  
-  public void removeItem(RoomItem item){
+  public boolean isActive(){
+    return active;
+  }
+
+  public void removeItem(RoomItem item) {
     items.remove(item);
   }
 
@@ -55,15 +59,15 @@ public class Room {
       }
     }
 
-    
+
     //Draw each item on the Room
-    
-    for(RoomItem item: items){
-         xLoc = item.col() * cellSize;
-         yLoc = item.row()* cellSize;
-        item.show(xLoc, yLoc, cellSize);      
+
+    for (RoomItem item : items) {
+      item.show(xLoc, yLoc, cellSize);    
+      xLoc = item.col() * cellSize;
+      yLoc = item.row()* cellSize;
     }    
-    
+
 
     popMatrix();
   }  

@@ -17,6 +17,17 @@ public class RoomItem{
   public void setData(int[][] data){
      glyphData = data; 
   }
+  
+  public int newRow(int newId){
+    rowId = newId;
+    return rowId; 
+  }
+  
+  public int newCol(int newId){ //makes it so that when moving to a new room you can set new locations 
+    colId = newId;
+    return newId;
+  
+  }
 
   public int row(){ return rowId; }
 
