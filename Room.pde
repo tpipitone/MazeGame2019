@@ -23,7 +23,7 @@ public class Room {
   }
 
   public void addItem(RoomItem item, int newRow, int newCol) {
-    item.newCol(newCol);
+    item.newCol(newCol); // sets new col, new row location
     item.newRow(newRow);
     items.add(item); 
     item.setBounds(rows, cols);
@@ -44,6 +44,7 @@ public class Room {
   public void show() {
     pushMatrix();
     translate(x_pos, y_pos);
+    
     for (int j=0; j< rows; j++) {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;
@@ -54,6 +55,7 @@ public class Room {
         //stroke( ? ) //border color
         //strokeWeight( ? ) // thickness of cell border
         fill(255);
+        
         rect(xAt, yAt, cellSize, cellSize);
         drawLayerCell(j, i, xAt, yAt);
       }

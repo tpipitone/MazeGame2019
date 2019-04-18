@@ -4,24 +4,17 @@ Room room3;
 Room room4;
 
 RoomItem player1;
-
+RoomItem door;
 Sticky guy; 
 int size = 20;
 
+int inRoom = 1; 
+
 /*
-boolean room1_active = true;
-boolean room2_active = false;
-boolean room3_active = false; 
-boolean room4_active = false;
-boolean room5_active = false;
-boolean room6_active = false;
-*/
-
-
-/*int[][] layer = {
- {0  , 255, 125,9,10,15,24,45,150},
- {100, 100, 100,9},
- {0  ,  0,  0},
+int[][] door = {
+ {50,100},
+ {0},
+ {0},
  {#8F2CB7}
  };
  */
@@ -30,25 +23,39 @@ boolean room6_active = false;
 void setup() {
   size(800, 800);
   //size of  cells 
-  room1 = new Room1(20, 20, height / size - 25, width / size - 25, size);
-  
+  room1 = new Room1(90, 20, 31, 31, 20); //(x, y, rows, cols, cellsize)
+
   room1.set_active(true);
-  
+
   guy = new Sticky(5, 5);
   player1 = new RoomItem(2, 5);
+  door = new RoomItem(2, 5);
   /*int[][] player1Data = {{ 0,0,  0,  },
    {0   ,  244,    0},
    {0,  0,  0}};
    */
-  int[][] player1Data = {{(66)}};
+   
+   
+  //int[][]doorData ={{0,0}};
+  //door.setData(doorData);
+  //room1.addItem(door,0,20);
+  
+  int[][] player1Data = {{78}};
   player1.setData(player1Data);
+  
+  
   room1.addItem( player1, 0, 0);
-  // room1.addLayer( layer );
+  
+  
+  
+  
+  
+   //room1.addLayer( doorData );
   //room1.addItem(guy);
 
-  room2 =  new Room(20, 350, height / size - 25, width / size - 25, size);
-  room3 = new Room(350, 350, height / size - 25, width / size - 25, size);
-  room4 = new Room(350, 20, height / size - 25, width / size - 25, size);
+  room2 =  new Room(90, 20, 31, 31, 20);
+  room3 = new Room(90, 20, 31, 31, 20);
+  room4 = new Room(90, 20, 31, 31, 20);
 }
 
 void draw() {
@@ -57,7 +64,6 @@ void draw() {
   if (room1 != null && room1.isActive()) {
     room1.show();
   }
-
 
   if (room2 != null && room2.isActive()) {
     room2.show();
@@ -70,6 +76,10 @@ void draw() {
   if (room4 != null && room4.isActive()) {
     room4.show();
   }
+  
+  
+  textSize(35);
+  text("ROOM "+ inRoom, 335, 725);
 }
 
 
@@ -78,7 +88,7 @@ void mousePressed() {
 
 void keyPressed() {
   println("COL: " + player1.col() + " ROW: " +  player1.row());
-  
+
   if (key == CODED) {
     if (keyCode == UP) {
       player1.updateRow(-1);
@@ -91,26 +101,50 @@ void keyPressed() {
     }
   }
 
+  if (player1.row() >= 30 && player1.col() == 0 && room1.isActive()) { // in room 1
 
-  if (player1.row() >= 14 && player1.col() == 0 && room1.isActive()) { // in room 1
     room2.set_active(true);
+    inRoom = 2;
     room1.removeItem(player1);
     room1.set_active(false); 
-    room2.addItem(player1, 0, 0);
-  } else if (player1.row() == 0 && player1.col() >= 14 && room1.isActive()) { 
+    room2.addItem(player1, 1, 0);
+  } else if (player1.row() == 0 && player1.col() >= 30 && room1.isActive()) { 
     room4.set_active(true);
+    inRoom = 4;
     room1.removeItem(player1);
     room1.set_active(false);
-    room4.addItem(player1, 0, 0);
+    room4.addItem(player1, 0, 1);
   }
-  
-  if (player1.row() >= 14 && player1.col() == 0 && room4.isActive()) { //room 4
+
+  if (player1.row() ==0 && player1.col() == 0 && room2.isActive()) { //room 2
+    room1.set_active(true);
+    inRoom = 1;
+    room2.removeItem(player1);
+    room2.set_active(false); 
+    room1.addItem(player1, 29, 0);
+  }
+
+  if (player1.row() == 0 && player1.col() == 0 && room3.isActive()) { //room3
+    room4.set_active(true);
+    inRoom = 4;
+    room3.removeItem(player1);
+    room3.set_active(false); 
+    room4.addItem(player1, 29, 0);
+  }
+
+
+
+  if (player1.row() >= 30 && player1.col() == 0 && room4.isActive()) { //room 4
     room3.set_active(true);
+    inRoom = 3;
     room4.removeItem(player1);
     room4.set_active(false);
-    room3.addItem(player1,0,0);
+    room3.addItem(player1, 1, 0);
+  } else if (player1.row() == 0 && player1.col() == 0 && room4.isActive()) {
+    room1.set_active(true);
+    inRoom = 1;
+    room4.removeItem(player1);
+    room4.set_active(false);
+    room1.addItem(player1, 0, 29);
   }
-  
-  
-  
 }
