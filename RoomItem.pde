@@ -8,25 +8,28 @@ public class RoomItem{
   protected int maxRow, maxCol;
 
   protected int[][] glyphData;
+  
+  protected String itemName;
 
   public RoomItem(int rowAt, int colAt){
      this.rowId = rowAt;
      this.colId = colAt;
+  }
+  
+  public void setName(String s){
+     itemName = s; 
   }
 
   public void setData(int[][] data){
      glyphData = data; 
   }
   
-  public int newRow(int newId){
-    rowId = newId;
-    return rowId; 
+  public void newRow(int newId){
+    this.rowId = newId;
   }
   
-  public int newCol(int newId){ //makes it so that when moving to a new room you can set new locations 
-    colId = newId;
-    return newId;
-  
+  public void newCol(int newId){ //makes it so that when moving to a new room you can set new locations 
+    this.colId = newId; 
   }
 
   public int row(){ return rowId; }
@@ -79,6 +82,11 @@ public class RoomItem{
 
     return result.toArray(new Cell[0]);
   }
+  
+  public String toString(){
+     return itemName + " row = " + rowId + " col = " + colId; 
+  }
+  
   /*
   
   public int getX(){

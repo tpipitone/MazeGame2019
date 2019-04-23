@@ -2,8 +2,8 @@
 public class Room {
   
   
-  int xLoc;
-  int yLoc;
+  //int xLoc;
+  //int yLoc;
   boolean active;
 
   int x_pos, y_pos;  
@@ -23,7 +23,7 @@ public class Room {
   }
 
   public void addItem(RoomItem item, int newRow, int newCol) {
-    item.newCol(newCol); // sets new col, new row location
+    item.newCol(newCol); // sets new col, new row location //<>//
     item.newRow(newRow);
     items.add(item); 
     item.setBounds(rows, cols);
@@ -64,15 +64,22 @@ public class Room {
 
     //Draw each item on the Room
 
-    for (RoomItem item : items) {
-      item.show(xLoc, yLoc, cellSize);    
-      xLoc = item.col() * cellSize;
-      yLoc = item.row()* cellSize;
+    for (RoomItem item : items) { //<>//
+      int xLoc = item.col() * cellSize;
+      int yLoc = item.row()* cellSize;
+      item.show(xLoc, yLoc, cellSize);  
+      
+
     }    
 
 
     popMatrix();
   }  
+
+  void dumpItems(){
+    for (RoomItem item : items)  
+      println(item);
+  }
 
   protected void drawLayerCell(int rowId, int colId, int xPos, int yPos) {
     if (layer != null) {

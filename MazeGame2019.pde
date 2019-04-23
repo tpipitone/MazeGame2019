@@ -1,11 +1,12 @@
-Room room1;
+Room room1; //<>// //<>// //<>// //<>//
 Room room2; 
 Room room3;
 Room room4;
 
 RoomItem player1;
 RoomItem door;
-Sticky guy; 
+
+
 int size = 20;
 
 int inRoom = 1; 
@@ -22,36 +23,25 @@ int[][] door = {
 
 void setup() {
   size(800, 800);
-  //size of  cells 
-  room1 = new Room1(90, 20, 31, 31, 20); //(x, y, rows, cols, cellsize)
-
+  room1 = new Room(90, 20, 31, 31, 20); //(x, y, rows, cols, cellsize)
   room1.set_active(true);
-
-  guy = new Sticky(5, 5);
-  player1 = new RoomItem(2, 5);
-  door = new RoomItem(2, 5);
-  /*int[][] player1Data = {{ 0,0,  0,  },
-   {0   ,  244,    0},
-   {0,  0,  0}};
-   */
-   
-   
-  //int[][]doorData ={{0,0}};
-  //door.setData(doorData);
-  //room1.addItem(door,0,20);
   
+  
+
+
+  player1 = new RoomItem(2, 5);
+  player1.setName("Player 1");
   int[][] player1Data = {{78}};
   player1.setData(player1Data);
-  
-  
   room1.addItem( player1, 0, 0);
-  
-  
-  
-  
-  
-   //room1.addLayer( doorData );
-  //room1.addItem(guy);
+
+
+  door = new RoomItem(2, 5);
+  door.setName("The door");
+  int[][]doorData ={{0, 0}};
+  door.setData(doorData);
+  room1.addItem(door, 30, 0);
+
 
   room2 =  new Room(90, 20, 31, 31, 20);
   room3 = new Room(90, 20, 31, 31, 20);
@@ -59,10 +49,11 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(46, 68, 102);
 
   if (room1 != null && room1.isActive()) {
     room1.show();
+
   }
 
   if (room2 != null && room2.isActive()) {
@@ -76,14 +67,15 @@ void draw() {
   if (room4 != null && room4.isActive()) {
     room4.show();
   }
-  
-  
+
+
   textSize(35);
   text("ROOM "+ inRoom, 335, 725);
 }
 
 
 void mousePressed() {
+  room1.dumpItems();
 }
 
 void keyPressed() {
