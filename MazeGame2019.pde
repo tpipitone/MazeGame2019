@@ -1,4 +1,7 @@
-Room room1; //<>// //<>// //<>// //<>//
+PFont font; //<>//
+PFont font_bold;
+
+Room room1; //<>// //<>// //<>//
 Room room2; 
 Room room3;
 Room room4;
@@ -23,11 +26,11 @@ int[][] door = {
 
 void setup() {
   size(800, 800);
-  room1 = new Room(90, 20, 31, 31, 20); //(x, y, rows, cols, cellsize)
-  room1.set_active(true);
-  
-  
+  font = loadFont("SitkaBanner-48.vlw");
+  font_bold = loadFont("SitkaHeading-Bold-48.vlw");
 
+  room1 = new Room(90, 50, 31, 31, 20); //(x, y, rows, cols, cellsize)
+  room1.set_active(true);
 
   player1 = new RoomItem(2, 5);
   player1.setName("Player 1");
@@ -42,10 +45,9 @@ void setup() {
   door.setData(doorData);
   room1.addItem(door, 30, 0);
 
-
-  room2 =  new Room(90, 20, 31, 31, 20);
-  room3 = new Room(90, 20, 31, 31, 20);
-  room4 = new Room(90, 20, 31, 31, 20);
+  room2 =  new Room(90, 50, 31, 31, 20);
+  room3 = new Room(90, 50, 31, 31, 20);
+  room4 = new Room(90, 50, 31, 31, 20);
 }
 
 void draw() {
@@ -54,6 +56,13 @@ void draw() {
   if (room1 != null && room1.isActive()) {
     room1.show();
 
+    fill(0);
+    textSize(5);
+    textFont(font);
+    text(room1txt ,30, 700);
+    
+    
+    
   }
 
   if (room2 != null && room2.isActive()) {
@@ -68,9 +77,10 @@ void draw() {
     room4.show();
   }
 
-
+  fill(0);
   textSize(35);
-  text("ROOM "+ inRoom, 335, 725);
+  textFont(font_bold);
+  text("ROOM "+ inRoom , 320, 40);
 }
 
 
