@@ -1,5 +1,6 @@
 PFont font; //<>//
 PFont font_bold;
+PImage compass_img;
 
 Room room1; //<>// //<>// //<>//
 Room room2; 
@@ -25,11 +26,12 @@ int[][] door = {
 
 
 void setup() {
-  size(800, 800);
+  size(1920, 1080);
   font = loadFont("SitkaBanner-48.vlw");
   font_bold = loadFont("SitkaHeading-Bold-48.vlw");
+  compass_img = loadImage("compass.png");
 
-  room1 = new Room(90, 50, 31, 31, 20); //(x, y, rows, cols, cellsize)
+  room1 = new Room(90, 100, 31, 31, 20); //(x, y, rows, cols, cellsize)
   room1.set_active(true);
 
   player1 = new RoomItem(2, 5);
@@ -57,9 +59,10 @@ void draw() {
     room1.show();
 
     fill(0);
-    textSize(5);
-    textFont(font);
-    text(room1txt ,30, 700);
+    
+    textFont(font_bold);
+    textSize(20);
+    text(room1txt ,750, 60);
     
     
     
@@ -78,9 +81,12 @@ void draw() {
   }
 
   fill(0);
-  textSize(35);
+  compass_img.resize(200,200);
+  image(compass_img, 270, 800); 
+  
   textFont(font_bold);
-  text("ROOM "+ inRoom , 320, 40);
+  textSize(70);
+  text("ROOM "+ inRoom ,275, 80);
 }
 
 
@@ -103,13 +109,14 @@ void keyPressed() {
     }
   }
 
-  if (player1.row() >= 30 && player1.col() == 0 && room1.isActive()) { // in room 1
+  if (player1.row() >= 30 && player1.col() == 0 && room1.isActive()) { // in room 1, adding to room 2
 
     room2.set_active(true);
     inRoom = 2;
     room1.removeItem(player1);
     room1.set_active(false); 
     room2.addItem(player1, 1, 0);
+    
   } else if (player1.row() == 0 && player1.col() >= 30 && room1.isActive()) { 
     room4.set_active(true);
     inRoom = 4;
