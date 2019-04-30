@@ -47,9 +47,9 @@ void setup() {
   door.setData(doorData);
   room1.addItem(door, 30, 0);
 
-  room2 =  new Room(90, 50, 31, 31, 20);
-  room3 = new Room(90, 50, 31, 31, 20);
-  room4 = new Room(90, 50, 31, 31, 20);
+  room2 =  new Room(90, 100, 31, 31, 20);
+  room3 = new Room(90, 100, 31, 31, 20);
+  room4 = new Room(90, 100, 31, 31, 20);
 }
 
 void draw() {
