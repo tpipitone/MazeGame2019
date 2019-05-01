@@ -1,7 +1,7 @@
-
+//<>// //<>//
 public class Room {
-  
-  
+
+
   //int xLoc;
   //int yLoc;
   boolean active;
@@ -11,6 +11,7 @@ public class Room {
   int rows, cols;
   int[][] layer;
   ArrayList<RoomItem> items;
+  ; 
 
   public Room(int x, int y, int numRows, int numCols, int cellSize ) {
     x_pos = x;
@@ -20,20 +21,22 @@ public class Room {
     cols = numCols;
     layer = null;
     items = new ArrayList<RoomItem>();
+    
   }
 
   public void addItem(RoomItem item, int newRow, int newCol) {
-    item.newCol(newCol); // sets new col, new row location //<>//
+    item.newCol(newCol); // sets new col, new row location
     item.newRow(newRow);
     items.add(item); 
     item.setBounds(rows, cols);
   }
+  
 
-  public void set_active(boolean is_active){
+  public void set_active(boolean is_active) {
     active = is_active;
   }
-  
-  public boolean isActive(){
+
+  public boolean isActive() {
     return active;
   }
 
@@ -44,7 +47,7 @@ public class Room {
   public void show() {
     pushMatrix();
     translate(x_pos, y_pos);
-    
+
     for (int j=0; j< rows; j++) {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;
@@ -55,28 +58,27 @@ public class Room {
         //stroke( ? ) //border color
         //strokeWeight( ? ) // thickness of cell border
         fill(255);
-        
+
         rect(xAt, yAt, cellSize, cellSize);
         drawLayerCell(j, i, xAt, yAt);
       }
+
     }
 
 
     //Draw each item on the Room
 
-    for (RoomItem item : items) { //<>//
+    for (RoomItem item : items) {
       int xLoc = item.col() * cellSize;
       int yLoc = item.row()* cellSize;
-      item.show(xLoc, yLoc, cellSize);  
-      
-
+      item.show(xLoc, yLoc, cellSize);
     }    
 
 
     popMatrix();
   }  
 
-  void dumpItems(){
+  void dumpItems() {
     for (RoomItem item : items)  
       println(item);
   }
@@ -94,15 +96,30 @@ public class Room {
   }
 
 
+
   public Cell getCell(int xClicked, int yClicked) {
     xClicked = xClicked - x_pos;
     yClicked = yClicked - y_pos;
 
     int xAt = xClicked/cellSize;
     int yAt = yClicked/cellSize;
-
+    System.out.println(xAt + " "  + yAt);
     return new Cell(yAt, xAt);
   }
+
+  public int getCellX(int xClicked) {
+    xClicked = xClicked - x_pos;
+    return xClicked / cellSize;
+  }
+
+  public int getCellY(int yClicked) {
+    yClicked = yClicked - y_pos;
+    return yClicked / cellSize;
+  }
+
+
+
+
 
   public void addLayer(int[][] theLayer) {
     this.layer = theLayer;

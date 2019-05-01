@@ -1,22 +1,23 @@
-PFont font; //<>//
+PFont font; //<>// //<>//
 PFont font_bold;
 PImage compass_img;
 
-Room room1; //<>// //<>// //<>//
+Room room1; //<>// //<>//
 Room room2; 
 Room room3;
 Room room4;
 
 RoomItem player1;
-RoomItem door;
-
+RoomItem door1;
+RoomItem door2;
+RoomItem backpack; 
 
 int size = 20;
 
 int inRoom = 1; 
 
 /*
-int[][] door = {
+int[][] door1 = {
  {50,100},
  {0},
  {0},
@@ -40,30 +41,60 @@ void setup() {
   player1.setData(player1Data);
   room1.addItem( player1, 0, 0);
 
+  backpack = new RoomItem (10, 10);
+  backpack.setName("Backpack");
+  int[][] backpackData = {{125}};
+  backpack.setData(backpackData);
+  room1.addItem(backpack, 10, 10);
 
-  door = new RoomItem(2, 5);
-  door.setName("The door");
-  int[][]doorData ={{0, 0}};
-  door.setData(doorData);
-  room1.addItem(door, 30, 0);
+  door1 = new RoomItem(2, 5);
+  door1.setName("door1");
+  int[][]door1Data ={{0, 0}};
+  door1.setData(door1Data);
+  room1.addItem(door1, 30, 0);
+
+  door2 = new RoomItem(0, 30);
+  int[][]door2Data = {
+    {0}, 
+    {0}, 
+  };
+  door2.setData(door2Data);
+  room1.addItem(door2, 0, 30);
+
+
+
 
   room2 =  new Room(90, 100, 31, 31, 20);
   room3 = new Room(90, 100, 31, 31, 20);
   room4 = new Room(90, 100, 31, 31, 20);
 }
 
+
+
+
 void draw() {
   background(46, 68, 102);
-
+  textFont(font_bold);
+  textSize(20);
+  text(help, 1650,900);
+  
   if (room1 != null && room1.isActive()) {
     room1.show();
 
     fill(0);
-    
+
     textFont(font_bold);
     textSize(20);
-    text(room1txt ,750, 60);
+    text(room1txt, 750, 60);
+
+    if (inventory.contains(backpack)) {
+      text(grabbedPack, 750, 300);
+    }
     
+    if(itemInteract(player1, door2)){
+      text(door2locked, 750, 500);
+    
+    }
     
     
   }
@@ -81,79 +112,34 @@ void draw() {
   }
 
   fill(0);
-  compass_img.resize(200,200);
-  image(compass_img, 270, 800); 
-  
+  compass_img.resize(200, 200);
+  //image(compass_img, 270, 800); 
+
   textFont(font_bold);
   textSize(70);
-  text("ROOM "+ inRoom ,275, 80);
+  text("ROOM "+ inRoom, 275, 80);
+}
+
+//public boolean itemClicked(RoomItem item, Room room) {
+
+//  if (room.getCellX(mouseX) == item.col() && room.getCellY(mouseY) == item.row()) { // ***use this for breaking doors and whatnot *****
+//    System.out.println("HERE");
+//    return true;
+//  }
+//  return false;
+//}
+
+
+public boolean itemInteract(RoomItem player, RoomItem item) {
+  if (key == 'e' && player.row() == item.row() && player.col() == item.col()) {
+    return true;
+  }
+  return false;
 }
 
 
-void mousePressed() {
+
+
+void mousePressed() { // for picking things up
   room1.dumpItems();
-}
-
-void keyPressed() {
-  println("COL: " + player1.col() + " ROW: " +  player1.row());
-
-  if (key == CODED) {
-    if (keyCode == UP) {
-      player1.updateRow(-1);
-    } else if (keyCode == DOWN) {
-      player1.updateRow(1);
-    } else if (keyCode == LEFT) {
-      player1.updateCol(-1);
-    } else if (keyCode == RIGHT) {
-      player1.updateCol(1);
-    }
-  }
-
-  if (player1.row() >= 30 && player1.col() == 0 && room1.isActive()) { // in room 1, adding to room 2
-
-    room2.set_active(true);
-    inRoom = 2;
-    room1.removeItem(player1);
-    room1.set_active(false); 
-    room2.addItem(player1, 1, 0);
-    
-  } else if (player1.row() == 0 && player1.col() >= 30 && room1.isActive()) { 
-    room4.set_active(true);
-    inRoom = 4;
-    room1.removeItem(player1);
-    room1.set_active(false);
-    room4.addItem(player1, 0, 1);
-  }
-
-  if (player1.row() ==0 && player1.col() == 0 && room2.isActive()) { //room 2
-    room1.set_active(true);
-    inRoom = 1;
-    room2.removeItem(player1);
-    room2.set_active(false); 
-    room1.addItem(player1, 29, 0);
-  }
-
-  if (player1.row() == 0 && player1.col() == 0 && room3.isActive()) { //room3
-    room4.set_active(true);
-    inRoom = 4;
-    room3.removeItem(player1);
-    room3.set_active(false); 
-    room4.addItem(player1, 29, 0);
-  }
-
-
-
-  if (player1.row() >= 30 && player1.col() == 0 && room4.isActive()) { //room 4
-    room3.set_active(true);
-    inRoom = 3;
-    room4.removeItem(player1);
-    room4.set_active(false);
-    room3.addItem(player1, 1, 0);
-  } else if (player1.row() == 0 && player1.col() == 0 && room4.isActive()) {
-    room1.set_active(true);
-    inRoom = 1;
-    room4.removeItem(player1);
-    room4.set_active(false);
-    room1.addItem(player1, 0, 29);
-  }
 }
