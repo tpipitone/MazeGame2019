@@ -2,7 +2,7 @@ String help =
         "** Controls **\n" 
         + "WASD - Movement\n"
         + "E - Interact (Pick Up / Open)\n"
-        + "Num Row - Change Item\n"
+        + "Q - Change Item\n"
         + "SPACE - Use Item";
       
         
@@ -18,5 +18,6 @@ String grabbedPack = "You picked up the backpack. Now you can carry things";
 
 String door2locked = "There is a padlock on this door, you need to break it off somehow";
   
+String currItem = "Current item:";
   
   

@@ -75,6 +75,7 @@ public class RoomItem {
     textSize(30);
     if (inventory.contains(backpack)) {
       text("PLAYER INVENTORY: " + inventory.toString().replace("[", "").replace("]", ""), 50, 670); // displays the inventory of an item /// removes ugly brackets
+      text("CURRENT ITEM: " + inventory.get(inventoryLocation), 50, 800);
     }
   }
 

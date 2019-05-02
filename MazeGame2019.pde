@@ -1,8 +1,8 @@
-PFont font; //<>// //<>//
+PFont font; //<>// //<>// //<>//
 PFont font_bold;
 PImage compass_img;
 
-Room room1; //<>// //<>//
+Room room1; //<>//
 Room room2; 
 Room room3;
 Room room4;
@@ -11,6 +11,7 @@ RoomItem player1;
 RoomItem door1;
 RoomItem door2;
 RoomItem backpack; 
+RoomItem crowbar; 
 
 int size = 20;
 
@@ -35,6 +36,10 @@ void setup() {
   room1 = new Room(90, 100, 31, 31, 20); //(x, y, rows, cols, cellsize)
   room1.set_active(true);
 
+  room2 =  new Room(90, 100, 31, 31, 20);
+  room3 = new Room(90, 100, 31, 31, 20);
+  room4 = new Room(90, 100, 31, 31, 20);
+
   player1 = new RoomItem(2, 5);
   player1.setName("Player 1");
   int[][] player1Data = {{78}};
@@ -46,6 +51,13 @@ void setup() {
   int[][] backpackData = {{125}};
   backpack.setData(backpackData);
   room1.addItem(backpack, 10, 10);
+
+  crowbar = new RoomItem(30, 30);
+  crowbar.setName("Crowbar");
+  int[][]crowbarData = {{80}};
+  crowbar.setData(crowbarData);
+  room2.addItem(crowbar, 30, 30);
+
 
   door1 = new RoomItem(2, 5);
   door1.setName("door1");
@@ -60,13 +72,6 @@ void setup() {
   };
   door2.setData(door2Data);
   room1.addItem(door2, 0, 30);
-
-
-
-
-  room2 =  new Room(90, 100, 31, 31, 20);
-  room3 = new Room(90, 100, 31, 31, 20);
-  room4 = new Room(90, 100, 31, 31, 20);
 }
 
 
@@ -76,8 +81,8 @@ void draw() {
   background(46, 68, 102);
   textFont(font_bold);
   textSize(20);
-  text(help, 1650,900);
-  
+  text(help, 1650, 900);
+
   if (room1 != null && room1.isActive()) {
     room1.show();
 
@@ -90,13 +95,10 @@ void draw() {
     if (inventory.contains(backpack)) {
       text(grabbedPack, 750, 300);
     }
-    
-    if(itemInteract(player1, door2)){
+
+    if (itemInteract(player1, door2)) {
       text(door2locked, 750, 500);
-    
     }
-    
-    
   }
 
   if (room2 != null && room2.isActive()) {
