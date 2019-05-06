@@ -1,8 +1,11 @@
-PFont font; //<>// //<>// //<>//
+import java.util.Timer; //<>// //<>//
+
+
+PFont font; //<>// //<>//
 PFont font_bold;
 PImage compass_img;
 
-Room room1; //<>//
+Room room1;
 Room room2; 
 Room room3;
 Room room4;
@@ -32,6 +35,8 @@ void setup() {
   font = loadFont("SitkaBanner-48.vlw");
   font_bold = loadFont("SitkaHeading-Bold-48.vlw");
   compass_img = loadImage("compass.png");
+  
+  Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20); //(x, y, rows, cols, cellsize)
   room1.set_active(true);
@@ -82,6 +87,14 @@ void draw() {
   textFont(font_bold);
   textSize(20);
   text(help, 1650, 900);
+  
+  if (inventory.contains(backpack)) {
+    text(grabbedPack, 750, 300);
+  }
+  
+  if(inventory.contains(crowbar)) { 
+    text(grabbedCrowbar, 750, 350);
+  }
 
   if (room1 != null && room1.isActive()) {
     room1.show();
@@ -92,9 +105,7 @@ void draw() {
     textSize(20);
     text(room1txt, 750, 60);
 
-    if (inventory.contains(backpack)) {
-      text(grabbedPack, 750, 300);
-    }
+
 
     if (itemInteract(player1, door2)) {
       text(door2locked, 750, 500);
@@ -137,6 +148,12 @@ public boolean itemInteract(RoomItem player, RoomItem item) {
     return true;
   }
   return false;
+}
+
+public void textTimer(String text, int xLoc, int yLoc){
+
+  
+
 }
 
 

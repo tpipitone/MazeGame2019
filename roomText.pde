@@ -16,6 +16,8 @@ String room1txt =
   
 String grabbedPack = "You picked up the backpack. Now you can carry things";
 
+String grabbedCrowbar = "You picked up the crowbar.";
+
 String door2locked = "There is a padlock on this door, you need to break it off somehow";
   
 String currItem = "Current item:";
