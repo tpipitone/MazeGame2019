@@ -14,12 +14,16 @@ String room1txt =
   +  "To the east you see a closed door. \n"
   +  "Laying next to you is a small backpack\n";
   
+String room2txt = "ROOM @ TXT";
+
+  
 String grabbedPack = "You picked up the backpack. Now you can carry things";
 
 String grabbedCrowbar = "You picked up the crowbar.";
 
 String door2locked = "There is a padlock on this door, you need to break it off somehow";
-  
+
+String door2isopen = "You broke the lock!";
 String currItem = "Current item:";
   
   

@@ -1,7 +1,6 @@
-import java.util.Timer; //<>// //<>//
+ //<>// //<>//
 
-
-PFont font; //<>// //<>//
+PFont font; //<>//
 PFont font_bold;
 PImage compass_img;
 
@@ -16,9 +15,15 @@ RoomItem door2;
 RoomItem backpack; 
 RoomItem crowbar; 
 
+StopWatch sw = new StopWatch();
+
 int size = 20;
 
 int inRoom = 1; 
+int totalClicks = 0;
+
+
+
 
 /*
 int[][] door1 = {
@@ -35,8 +40,8 @@ void setup() {
   font = loadFont("SitkaBanner-48.vlw");
   font_bold = loadFont("SitkaHeading-Bold-48.vlw");
   compass_img = loadImage("compass.png");
-  
-  Timer timer = new Timer();
+
+  //Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20); //(x, y, rows, cols, cellsize)
   room1.set_active(true);
@@ -87,13 +92,13 @@ void draw() {
   textFont(font_bold);
   textSize(20);
   text(help, 1650, 900);
-  
+
   if (inventory.contains(backpack)) {
-    text(grabbedPack, 750, 300);
+    textTimer(grabbedPack, 5, 750, 300);
   }
-  
-  if(inventory.contains(crowbar)) { 
-    text(grabbedCrowbar, 750, 350);
+
+  if (inventory.contains(crowbar)) { 
+    textTimer(grabbedCrowbar, 5, 750, 350); //text, time, xloc, yloc
   }
 
   if (room1 != null && room1.isActive()) {
@@ -105,15 +110,22 @@ void draw() {
     textSize(20);
     text(room1txt, 750, 60);
 
-
-
-    if (itemInteract(player1, door2)) {
+    if (itemInteract(player1, door2, 'e') && (!door2open)) {
       text(door2locked, 750, 500);
+    }
+
+    if (door2open) {
+      text(door2isopen, 750, 500);
     }
   }
 
+
+
   if (room2 != null && room2.isActive()) {
     room2.show();
+    textFont(font_bold);
+    textSize(20);
+    text(room2txt, 750, 60);
   }
 
   if (room3 != null && room3.isActive ()) {
@@ -133,31 +145,52 @@ void draw() {
   text("ROOM "+ inRoom, 275, 80);
 }
 
-//public boolean itemClicked(RoomItem item, Room room) {
-
-//  if (room.getCellX(mouseX) == item.col() && room.getCellY(mouseY) == item.row()) { // ***use this for breaking doors and whatnot *****
-//    System.out.println("HERE");
-//    return true;
-//  }
-//  return false;
-//}
-
-
-public boolean itemInteract(RoomItem player, RoomItem item) {
-  if (key == 'e' && player.row() == item.row() && player.col() == item.col()) {
+public boolean itemClicked(RoomItem item, Room room) {
+  if (room.getCellX(mouseX) == item.col() && room.getCellY(mouseY) == item.row()) { // ***use this for breaking doors and whatnot *****
+    System.out.println("HERE");
     return true;
   }
   return false;
 }
 
-public void textTimer(String text, int xLoc, int yLoc){
+public int clicks(char ch) {
+  if (totalClicks > 5) {
+    totalClicks = 0;
+  }
 
-  
-
+  if (key == ch) {
+    totalClicks++;
+    System.out.print(totalClicks);
+  }
+  return totalClicks;
 }
 
 
+public boolean itemInteract(RoomItem player, RoomItem item, char keyName) {
+  if (key == keyName && player.row() == item.row() && player.col() == item.col()) {
+    return true;
+  }
+  return false;
+}
 
+public boolean isAttack(RoomItem player, RoomItem attackedItem, RoomItem neededItem, Room room) {
+  if ( (player.row() == attackedItem.row() && player.col() == attackedItem.col())  &&  (inventory.contains(neededItem)) && (itemClicked(attackedItem, room)) ) {
+    return true;
+  }
+  return false;
+}
+
+public void textTimer(String text, int timeSecs, int xLoc, int yLoc) { //lets me set text to go away at a certian time in seconds 
+  sw.start();
+
+  if (sw.second() < timeSecs) {
+    textFont(font_bold);
+    textSize(20);
+    text(text, xLoc, yLoc);
+  } else {
+    sw.stop();
+  }
+}
 
 void mousePressed() { // for picking things up
   room1.dumpItems();

@@ -1,4 +1,4 @@
-boolean room2open = false; 
+boolean door2open = false; 
 int inventoryLocation = 0; 
 
 void keyPressed() {
@@ -31,10 +31,17 @@ void keyPressed() {
 
   if (inRoom == 1) {
 
-    if (itemInteract(player1, backpack)) {
+    if (itemInteract(player1, backpack, 'e')) {
       player1.addInventory(backpack);
       room1.removeItem(backpack);
     }
+    
+    if(player1.row() == door2.row() && inventory.get(inventoryLocation) == crowbar && clicks('x') >= 5 ){
+      door2open = true;
+    }
+
+
+
 
     if (player1.row() >= 30 && player1.col() == 0 && key == 'e') { //adding to room 2
 
@@ -43,13 +50,16 @@ void keyPressed() {
       room1.removeItem(player1);
       room1.set_active(false); 
       room2.addItem(player1, 1, 0);
-    } else if ( player1.row() == 0 && player1.col() >= 30) { // adding to room 4
-      if (room2open) {
+    } else if (player1.row() >= 0 && player1.col() == 30 && key == 'e') {
+
+      if (door2open) {
         room4.set_active(true);
         inRoom = 4;
         room1.removeItem(player1);
         room1.set_active(false);
         room4.addItem(player1, 0, 1);
+        
+        
       }
     }
   }
@@ -57,7 +67,7 @@ void keyPressed() {
 
 
   if (inRoom == 2) {
-    if (itemInteract(player1, crowbar)) {
+    if (itemInteract(player1, crowbar, 'e')) {
       player1.addInventory(crowbar);
       room2.removeItem(crowbar);
     }
