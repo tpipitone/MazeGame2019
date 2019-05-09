@@ -1,6 +1,6 @@
- //<>// //<>//
+//<>// //<>// //<>//
 
-PFont font; //<>//
+PFont font;
 PFont font_bold;
 PImage compass_img;
 
@@ -103,9 +103,9 @@ void draw() {
 
   if (room1 != null && room1.isActive()) {
     room1.show();
+    room1.displayItemOn();
 
     fill(0);
-
     textFont(font_bold);
     textSize(20);
     text(room1txt, 750, 60);
@@ -123,6 +123,7 @@ void draw() {
 
   if (room2 != null && room2.isActive()) {
     room2.show();
+    room2.displayItemOn();
     textFont(font_bold);
     textSize(20);
     text(room2txt, 750, 60);
@@ -130,10 +131,12 @@ void draw() {
 
   if (room3 != null && room3.isActive ()) {
     room3.show();
+    room3.displayItemOn();
   }
 
   if (room4 != null && room4.isActive()) {
     room4.show();
+    room4.displayItemOn();
   }
 
   fill(0);
@@ -165,6 +168,13 @@ public int clicks(char ch) {
   return totalClicks;
 }
 
+public boolean onItem(RoomItem item) {
+  if (player1.row() == item.row() && player1.col() == item.col()) {
+    return true;
+  }
+  return false;
+}
+
 
 public boolean itemInteract(RoomItem player, RoomItem item, char keyName) {
   if (key == keyName && player.row() == item.row() && player.col() == item.col()) {
@@ -179,6 +189,8 @@ public boolean isAttack(RoomItem player, RoomItem attackedItem, RoomItem neededI
   }
   return false;
 }
+
+
 
 public void textTimer(String text, int timeSecs, int xLoc, int yLoc) { //lets me set text to go away at a certian time in seconds 
   sw.start();

@@ -36,7 +36,7 @@ void keyPressed() {
       room1.removeItem(backpack);
     }
     
-    if(player1.row() == door2.row() && inventory.get(inventoryLocation) == crowbar && clicks('x') >= 5 ){
+    if(onItem(door2) && inventory.size() > 0  && inventory.get(inventoryLocation) == crowbar && clicks('x') >= 5 ){
       door2open = true;
     }
 
@@ -67,7 +67,7 @@ void keyPressed() {
 
 
   if (inRoom == 2) {
-    if (itemInteract(player1, crowbar, 'e')) {
+    if (itemInteract(player1, crowbar, 'e')  && inventory.contains(backpack)) {
       player1.addInventory(crowbar);
       room2.removeItem(crowbar);
     }

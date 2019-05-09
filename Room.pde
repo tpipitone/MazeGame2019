@@ -1,4 +1,5 @@
 //<>// //<>//
+
 public class Room {
 
 
@@ -22,7 +23,10 @@ public class Room {
     layer = null;
     items = new ArrayList<RoomItem>();
     
+    
   }
+  
+
 
   public void addItem(RoomItem item, int newRow, int newCol) {
     item.newCol(newCol); // sets new col, new row location
@@ -30,6 +34,19 @@ public class Room {
     items.add(item); 
     item.setBounds(rows, cols);
   }
+  
+  public void displayItemOn() {                                     ///prints which item im on
+  System.out.println("ROOM ITEM SIZE: " + items.size());
+  if (items.size() > 0) {
+    for (int i = 0; i < items.size(); i++) {
+      if ( (  onItem(items.get(i) ) && items.get(i) != player1 )){
+        textFont(font_bold);
+        textSize(20);
+        text(items.get(i) + " (e to interact)" , 750, 200);
+      }
+    }
+  }
+}
   
 
   public void set_active(boolean is_active) {
