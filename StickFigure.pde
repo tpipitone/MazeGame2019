@@ -11,7 +11,7 @@ public class Sticky extends RoomItem {
       line( cellSize/3, cellSize, cellSize/2, 2*cellSize/3);
       line( 2*cellSize/3, cellSize, cellSize/2, 2*cellSize/3);
 
-      //body
+      // /body
       line( cellSize/2, 2*cellSize/3, cellSize/2, cellSize/4);
 
       //head

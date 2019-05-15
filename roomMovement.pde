@@ -35,8 +35,8 @@ void keyPressed() {
       player1.addInventory(backpack);
       room1.removeItem(backpack);
     }
-    
-    if(onItem(door2) && inventory.size() > 0  && inventory.get(inventoryLocation) == crowbar && clicks('x') >= 5 ){
+
+    if (onItem(door2) && inventory.size() > 0  && inventory.get(inventoryLocation) == crowbar && clicks('x') >= 5 ) {
       door2open = true;
     }
 
@@ -58,8 +58,6 @@ void keyPressed() {
         room1.removeItem(player1);
         room1.set_active(false);
         room4.addItem(player1, 0, 1);
-        
-        
       }
     }
   }
@@ -85,7 +83,7 @@ void keyPressed() {
 
   if (inRoom == 3) {
 
-    if (player1.row() == 0 && player1.col() == 0 && room3.isActive()) { //room3
+    if (player1.row() == 0 && player1.col() == 0 && room3.isActive() ) { //room3
       room4.set_active(true);
       inRoom = 4;
       room3.removeItem(player1);
@@ -94,21 +92,39 @@ void keyPressed() {
     }
   }
 
+  if (inRoom == 5) {
+    if (itemInteract(player1, prep_door2, 'e') ) {
+      room4.set_active(true);
+      inRoom = 4;
+      room5.removeItem(player1);
+      room5.set_active(false);
+      room4.addItem(player1, 0, 16);
+    }
+   }
+
 
 
   if (inRoom == 4) {
-    if (player1.row() >= 30 && player1.col() == 0 && room4.isActive()) { //room 4
+    if (player1.row() >= 30 && player1.col() == 0 && room4.isActive() ) { //room 4
       room3.set_active(true);
       inRoom = 3;
       room4.removeItem(player1);
       room4.set_active(false);
       room3.addItem(player1, 1, 0);
-    } else if (player1.row() == 0 && player1.col() == 0 && room4.isActive()) {
+    } else if (player1.row() == 0 && player1.col() == 0 && room4.isActive() ) {
       room1.set_active(true);
       inRoom = 1;
       room4.removeItem(player1);
       room4.set_active(false);
       room1.addItem(player1, 0, 29);
+    }
+
+    if (itemInteract(player1, prep_door, 'e')) {
+      room5.set_active(true);
+      inRoom = 5;
+      room4.removeItem(player1);
+      room4.set_active(false);
+      room5.addItem(player1, 30, 7);
     }
   }
 }

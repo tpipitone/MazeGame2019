@@ -3,7 +3,7 @@ String help =
         + "WASD - Movement\n"
         + "E - Interact (Pick Up / Open)\n"
         + "Q - Change Item\n"
-        + "SPACE - Use Item";
+        + "X - Use Item";
       
         
 
@@ -16,6 +16,10 @@ String room1txt =
   
 String room2txt = "ROOM @ TXT";
 
+String room4txt = "  You are in a kitchen now. To your north, you see a door with a sign labeled 'PREP ROOM'.\n" +
+    "To the south, there is another door. You can see flickering lights through the cracks and hear faint grunting.";
+    
+String room5txt = "You have entered what looks like a prep room, filled with utencils and food";
   
 String grabbedPack = "You picked up the backpack. Now you can carry things";
 

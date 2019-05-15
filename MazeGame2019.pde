@@ -1,4 +1,5 @@
 //<>// //<>// //<>//
+boolean GODMODE = true ;
 
 PFont font;
 PFont font_bold;
@@ -8,16 +9,21 @@ Room room1;
 Room room2; 
 Room room3;
 Room room4;
+Room room5;
 
 RoomItem player1;
-RoomItem door1;
-RoomItem door2;
-RoomItem backpack; 
+
+RoomItem door1, door2, prep_door, prep_door2; // all doors 
+
+PulseItem backpack; 
 RoomItem crowbar; 
+
+RoomItem fork, knife, spoon, mallet; // for room 5 kitchen 
 
 StopWatch sw = new StopWatch();
 
 int size = 20;
+
 
 int inRoom = 1; 
 int totalClicks = 0;
@@ -49,24 +55,22 @@ void setup() {
   room2 =  new Room(90, 100, 31, 31, 20);
   room3 = new Room(90, 100, 31, 31, 20);
   room4 = new Room(90, 100, 31, 31, 20);
+  room5 = new Room(300, 100, 31, 10, 20);
 
-  player1 = new RoomItem(2, 5);
-  player1.setName("Player 1");
-  int[][] player1Data = {{78}};
-  player1.setData(player1Data);
-  room1.addItem( player1, 0, 0);
+//  room5.set_active(true); 
 
-  backpack = new RoomItem (10, 10);
-  backpack.setName("Backpack");
+  player1 = new RoomItem(2, 5); 
+  int[][] player1Data = {{#AF1E1E}};
+  initItem(player1, room1, player1Data, "Player 1", 0, 0);
+
+  backpack = new PulseItem (10, 10);
   int[][] backpackData = {{125}};
-  backpack.setData(backpackData);
-  room1.addItem(backpack, 10, 10);
+  initItem(backpack, room1, backpackData, "Backpack", 10, 10);
+
 
   crowbar = new RoomItem(30, 30);
-  crowbar.setName("Crowbar");
   int[][]crowbarData = {{80}};
-  crowbar.setData(crowbarData);
-  room2.addItem(crowbar, 30, 30);
+  initItem(crowbar, room2, crowbarData, "Crowbar", 30, 30); 
 
 
   door1 = new RoomItem(2, 5);
@@ -82,7 +86,45 @@ void setup() {
   };
   door2.setData(door2Data);
   room1.addItem(door2, 0, 30);
+
+  prep_door = new RoomItem(2, 5);
+  prep_door.setName("Prep Room Door");
+  int[][]prep_doorData ={{0, 0}};
+  prep_door.setData(prep_doorData);
+  room4.addItem(prep_door, 0, 15);
+  //room5.addItem(prep_door,30,7);
+
+  prep_door2 = new RoomItem(2, 5);
+  prep_door2.setName("Door To Room 5");
+  int[][]prep_door2Data ={{0, 0}};
+  prep_door2.setData(prep_door2Data);
+  room5.addItem(prep_door2, 30, 7);
+
+  fork = new RoomItem(2, 5);
+  int[][]forkData = {{0}};
+  initItem(fork, room5, forkData, "Fork", 0, 0);
+
+  spoon = new RoomItem(2, 5);
+  int[][]spoonData = {{0}};
+  initItem(spoon, room5, spoonData, "Spoon", 0, 2);
+
+  knife = new RoomItem(2, 5);
+  int[][]knifeData = {{0}};
+  initItem(knife, room5, knifeData, "Knife", 0, 4);
+
+  mallet = new RoomItem(2, 5);
+  int[][]malletData = {{0}};
+  initItem(mallet, room5, malletData, "Mallet", 0, 6);
 }
+
+public void initItem(RoomItem item, Room room, int[][]itemData, String name, int row, int col) {
+  item.setName(name);
+  item.setData(itemData);
+  room.addItem(item, row, col);
+}
+
+
+
 
 
 
@@ -132,11 +174,22 @@ void draw() {
   if (room3 != null && room3.isActive ()) {
     room3.show();
     room3.displayItemOn();
+
+    //  text(room3txt, 750, 60);
   }
 
   if (room4 != null && room4.isActive()) {
     room4.show();
     room4.displayItemOn();
+    textSize(20);
+    text(room4txt, 750, 60);
+  }
+
+  if (room5 != null && room5.isActive()) {
+    room5.show();
+    room5.displayItemOn();
+    textSize(20);
+    text(room5txt, 750, 60);
   }
 
   fill(0);
@@ -180,6 +233,9 @@ public boolean itemInteract(RoomItem player, RoomItem item, char keyName) {
   if (key == keyName && player.row() == item.row() && player.col() == item.col()) {
     return true;
   }
+
+
+
   return false;
 }
 

@@ -59,7 +59,7 @@ public class RoomItem {
     for (int row = 0; row < glyphData.length; row++) {
       for (int col = 0; col < glyphData[row].length; col++) {
         int fillColor = glyphData[row][col];
-        if (fillColor > -1) {
+        if (fillColor != -1) {
           fill(fillColor);
           int x = xAt + col*cellSize;
           int y = yAt + row*cellSize;
