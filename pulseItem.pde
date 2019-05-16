@@ -12,7 +12,10 @@ public class PulseItem extends RoomItem {
           fill(fillColor);
           int x = xAt + col*cellSize;
           int y = yAt + row*cellSize;
-          rect(x, y, cellSize +  3*(sin(frameCount)), cellSize +  3*(cos(frameCount)));
+          noStroke();
+          ellipseMode(CENTER);
+          rectMode(CENTER);
+          rect(x , y , cellSize +  4 * (sin(frameCount / 6)), cellSize +  4 * (sin(frameCount / 6)));
         }
       }
     }

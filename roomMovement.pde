@@ -100,7 +100,27 @@ void keyPressed() {
       room5.set_active(false);
       room4.addItem(player1, 0, 16);
     }
-   }
+
+    if (itemInteract(player1, fork, 'e')) {
+      player1.addInventory(fork);
+      room5.removeItem(fork);
+    }
+
+    if (itemInteract(player1, knife, 'e') ) {
+      player1.addInventory(knife);
+      room5.removeItem(knife);
+    }
+
+    if (itemInteract(player1, mallet, 'e') ) {
+      player1.addInventory(mallet);
+      room5.removeItem(mallet);
+    }
+
+    if (itemInteract(player1, spoon, 'e') ) {
+      player1.addInventory(spoon);
+      room5.removeItem(spoon);
+    }
+  }
 
 
 

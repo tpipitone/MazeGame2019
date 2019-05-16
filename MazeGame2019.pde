@@ -64,7 +64,7 @@ void setup() {
   initItem(player1, room1, player1Data, "Player 1", 0, 0);
 
   backpack = new PulseItem (10, 10);
-  int[][] backpackData = {{125}};
+  int[][] backpackData = {{#b5651d}};
   initItem(backpack, room1, backpackData, "Backpack", 10, 10);
 
 

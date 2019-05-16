@@ -69,12 +69,12 @@ public class Room {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;
         int yAt = j*cellSize;
-
+        fill(#654321);
         //todo: think about what color we want
         //fill( ? )
         //stroke( ? ) //border color
         //strokeWeight( ? ) // thickness of cell border
-        fill(255);
+       // fill(255);
 
         rect(xAt, yAt, cellSize, cellSize);
         drawLayerCell(j, i, xAt, yAt);
