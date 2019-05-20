@@ -12,7 +12,7 @@ public class Room {
   int rows, cols;
   int[][] layer;
   ArrayList<RoomItem> items;
-  ; 
+  
 
   public Room(int x, int y, int numRows, int numCols, int cellSize ) {
     x_pos = x;
@@ -26,8 +26,6 @@ public class Room {
     
   }
   
-
-
   public void addItem(RoomItem item, int newRow, int newCol) {
     item.newCol(newCol); // sets new col, new row location
     item.newRow(newRow);

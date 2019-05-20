@@ -83,7 +83,7 @@ void keyPressed() {
 
   if (inRoom == 3) {
 
-    if (player1.row() == 0 && player1.col() == 0 && room3.isActive() ) { //room3
+    if (player1.row() == 0 && player1.col() == 0 && room3.isActive() && key == 'e') { //room3
       room4.set_active(true);
       inRoom = 4;
       room3.removeItem(player1);
@@ -125,7 +125,7 @@ void keyPressed() {
 
 
   if (inRoom == 4) {
-    if (player1.row() >= 30 && player1.col() == 0 && room4.isActive() ) { //room 4
+    if (player1.row() >= 30 && player1.col() == 0 && room4.isActive() && key == 'e') { //room 4
       room3.set_active(true);
       inRoom = 3;
       room4.removeItem(player1);

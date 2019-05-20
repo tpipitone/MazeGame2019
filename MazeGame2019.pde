@@ -11,9 +11,9 @@ Room room3;
 Room room4;
 Room room5;
 
-RoomItem player1;
+Sticky player1;
 
-RoomItem door1, door2, prep_door, prep_door2; // all doors 
+RoomItem door1, door2, prep_door, prep_door2, door4, door3; // all doors 
 
 PulseItem backpack; 
 RoomItem crowbar; 
@@ -57,9 +57,9 @@ void setup() {
   room4 = new Room(90, 100, 31, 31, 20);
   room5 = new Room(300, 100, 31, 10, 20);
 
-//  room5.set_active(true); 
+  //room4.set_active(true); 
 
-  player1 = new RoomItem(2, 5); 
+  player1 = new Sticky(2, 5); 
   int[][] player1Data = {{#AF1E1E}};
   initItem(player1, room1, player1Data, "Player 1", 0, 0);
 
@@ -99,6 +99,12 @@ void setup() {
   int[][]prep_door2Data ={{0, 0}};
   prep_door2.setData(prep_door2Data);
   room5.addItem(prep_door2, 30, 7);
+  
+  door4 = new RoomItem(2,5);
+  initItem(door4, room4, prep_door2Data, "Room 3 Door", 30, 0);
+  
+  door3 = new RoomItem(2,5);
+  initItem(door3, room3, prep_door2Data, "Room 4 Door", 0, 0);
 
   fork = new RoomItem(2, 5);
   int[][]forkData = {{0}};
