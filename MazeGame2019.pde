@@ -1,4 +1,4 @@
-//<>// //<>// //<>//
+//<>// //<>// //<>// //<>//
 boolean GODMODE = true ;
 
 PFont font;
@@ -11,8 +11,8 @@ Room room3;
 Room room4;
 Room room5;
 
-Sticky player1;
-
+RoomItem player1;
+Enemy goon;
 RoomItem door1, door2, prep_door, prep_door2, door4, door3; // all doors 
 
 PulseItem backpack; 
@@ -24,9 +24,12 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-
 int inRoom = 1; 
+
 int totalClicks = 0;
+
+int health = 100; 
+
 
 
 
@@ -59,17 +62,21 @@ void setup() {
 
   //room4.set_active(true); 
 
-  player1 = new Sticky(2, 5); 
-  int[][] player1Data = {{#AF1E1E}};
+  player1 = new RoomItem(2, 5); 
+  int[][] player1Data = { {#AF1E1E} };
   initItem(player1, room1, player1Data, "Player 1", 0, 0);
 
+  goon = new Enemy(15,15,player1);
+  int[][] enemyData = { { 0 } };
+  initItem(goon, room1, enemyData, "Goon", 15,15);
+  
   backpack = new PulseItem (10, 10);
-  int[][] backpackData = {{#b5651d}};
+  int[][] backpackData = { { #B5651D } };
   initItem(backpack, room1, backpackData, "Backpack", 10, 10);
 
 
   crowbar = new RoomItem(30, 30);
-  int[][]crowbarData = {{80}};
+  int[][]crowbarData = { {80} };
   initItem(crowbar, room2, crowbarData, "Crowbar", 30, 30); 
 
 
