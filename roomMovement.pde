@@ -30,6 +30,12 @@ void keyPressed() {
 
 
   if (inRoom == 1) {
+    
+    if(onEnemy(goon)){
+      player1.health--;
+    }
+
+      
 
     if (itemInteract(player1, backpack, 'e')) {
       player1.addInventory(backpack);

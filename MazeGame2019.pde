@@ -28,7 +28,7 @@ int inRoom = 1;
 
 int totalClicks = 0;
 
-int health = 100; 
+//int playerHealth = 100; 
 
 
 
@@ -66,10 +66,10 @@ void setup() {
   int[][] player1Data = { {#AF1E1E} };
   initItem(player1, room1, player1Data, "Player 1", 0, 0);
 
-  goon = new Enemy(15,15,player1);
+  goon = new Enemy(15, 15, player1);
   int[][] enemyData = { { 0 } };
-  initItem(goon, room1, enemyData, "Goon", 15,15);
-  
+  initItem(goon, room1, enemyData, "Goon", 30, 30);
+
   backpack = new PulseItem (10, 10);
   int[][] backpackData = { { #B5651D } };
   initItem(backpack, room1, backpackData, "Backpack", 10, 10);
@@ -106,11 +106,11 @@ void setup() {
   int[][]prep_door2Data ={{0, 0}};
   prep_door2.setData(prep_door2Data);
   room5.addItem(prep_door2, 30, 7);
-  
-  door4 = new RoomItem(2,5);
+
+  door4 = new RoomItem(2, 5);
   initItem(door4, room4, prep_door2Data, "Room 3 Door", 30, 0);
-  
-  door3 = new RoomItem(2,5);
+
+  door3 = new RoomItem(2, 5);
   initItem(door3, room3, prep_door2Data, "Room 4 Door", 0, 0);
 
   fork = new RoomItem(2, 5);
@@ -147,7 +147,22 @@ void draw() {
   textFont(font_bold);
   textSize(20);
   text(help, 1650, 900);
+  text("Player Health ", 100, 930);
 
+ // System.out.println(goon.getY() + " " );
+
+  if (player1.health >= 50) {
+    fill(#03FA04);
+    textSize(30); 
+    text(player1.health, 250, 930);
+  } else { 
+    fill(#FA0B03);
+    textSize(30);
+    text(player1.health, 250, 930);
+  }
+
+
+  fill(0); 
   if (inventory.contains(backpack)) {
     textTimer(grabbedPack, 5, 750, 300);
   }
@@ -236,6 +251,13 @@ public int clicks(char ch) {
 
 public boolean onItem(RoomItem item) {
   if (player1.row() == item.row() && player1.col() == item.col()) {
+    return true;
+  }
+  return false;
+}
+
+public boolean onEnemy(Enemy villian) {
+  if (player1.row() == villian.getrow() && player1.col() == villian.getcol() ){
     return true;
   }
   return false;

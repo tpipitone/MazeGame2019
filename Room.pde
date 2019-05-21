@@ -34,7 +34,7 @@ public class Room {
   }
   
   public void displayItemOn() {                                     ///prints which item im on
-  System.out.println("ROOM ITEM SIZE: " + items.size());
+  //System.out.println("ROOM ITEM SIZE: " + items.size());
   if (items.size() > 0) {
     for (int i = 0; i < items.size(); i++) {
       if ( (  onItem(items.get(i) ) && items.get(i) != player1 )){
