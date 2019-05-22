@@ -14,20 +14,31 @@ String room1txt =
   +  "To the east you see a closed door. \n"
   +  "Laying next to you is a small backpack\n";
   
-String room2txt = "ROOM @ TXT";
+String room2txt = "You enter a  dimly lit room, there is a shiny, large item laying in the far corner.\n"
+  + "Maybe some type of tool?";
+  
+String room3txt = "A goon leaps out at you! You must escape before it attacks you!";
 
 String room4txt = "  You are in a kitchen now. To your north, you see a door with a sign labeled 'PREP ROOM'.\n" +
     "To the south, there is another door. You can see flickering lights through the cracks and hear faint grunting.";
     
 String room5txt = "You have entered what looks like a prep room, filled with utencils and food";
-  
+
+String room6txt = "You escaped the goon! Now you are in a bathroom";
+
+String room7txt = "You are in a bedroom. The outside door is bolted to a wall.\n"
+              + "There is an open window about 5 feet above the ground";
+              
 String grabbedPack = "You picked up the backpack. Now you can carry things";
 
 String grabbedCrowbar = "You picked up the crowbar.";
 
 String door2locked = "There is a padlock on this door, you need to break it off somehow";
+String door6locked = "This door is locked; you need a key";
 
 String door2isopen = "You broke the lock!";
+String door6isopen = "You unlock the door!";
+
 String currItem = "Current item:";
   
   

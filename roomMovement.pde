@@ -1,4 +1,5 @@
 boolean door2open = false; 
+boolean door6open = false; 
 int inventoryLocation = 0; 
 
 void keyPressed() {
@@ -30,12 +31,9 @@ void keyPressed() {
 
 
   if (inRoom == 1) {
-    
-    if(onEnemy(goon)){
-      player1.health--;
-    }
 
-      
+
+
 
     if (itemInteract(player1, backpack, 'e')) {
       player1.addInventory(backpack);
@@ -96,6 +94,26 @@ void keyPressed() {
       room3.set_active(false); 
       room4.addItem(player1, 29, 0);
     }
+
+    if (itemInteract(player1, door3to6, 'e') && door6open) {
+      room6.set_active(true);
+      inRoom = 6;
+      room3.removeItem(player1);
+      room3.set_active(false);
+      room6.addItem(player1, 0, 0);
+    }
+
+    if (itemInteract(player1, rm5Key, 'e')) {
+      player1.addInventory(rm5Key);
+      room3.removeItem(rm5Key);
+    }
+
+    if (onItem(door3to6) && inventory.size() > 0  && inventory.get(inventoryLocation) == rm5Key && clicks('x') >= 1 ) {
+      door6open = true;
+    }
+    
+    
+    
   }
 
   if (inRoom == 5) {
@@ -153,4 +171,18 @@ void keyPressed() {
       room5.addItem(player1, 30, 7);
     }
   }
+  
+  
+  if(inRoom == 6 ){
+    if(itemInteract(player1, door6to7, 'e')){
+      room7.set_active(true);
+      inRoom = 7;
+      room6.removeItem(player1);
+      room6.set_active(false);
+      room7.addItem(player1, 15, 0); 
+    }
+    
+    
+  }
+  
 }

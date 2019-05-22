@@ -2,18 +2,22 @@ public class Enemy extends RoomItem {
 
   //PVector villian;
   PVector villian = new PVector(500, 500, 0);
-  float villianSpeed = 2;
+  float villianSpeed = 3;
   RoomItem player1;
+  public int health; 
 
   public Enemy(int rowAt, int colAt, RoomItem player1) {
     super(rowAt, colAt);
     this.player1 = player1;
+    villian.x = rowAt * 20;
+    villian.y = colAt * 20;
   }
 
 
 
   public void show(int xAt, int yAt, int cellSize) {   
     //villian = new PVector(xAt, yAt, 0);
+
     for (int row = 0; row < glyphData.length; row++) {
       for (int col = 0; col < glyphData[row].length; col++) {
         int fillColor = glyphData[row][col];
@@ -38,7 +42,4 @@ public class Enemy extends RoomItem {
   public int getrow() {
     return (int)villian.y / 20;
   }
-  
-  
-  
 }
