@@ -1,6 +1,17 @@
 boolean door2open = false; 
 boolean door6open = false; 
+boolean window7open = false; 
+
 int inventoryLocation = 0; 
+
+
+void keyReleased(){
+  if (key == 'p'){
+    pPressed = false;
+  }
+
+}
+
 
 void keyPressed() {
   //println("COL: " + player1.col() + " ROW: " +  player1.row());
@@ -15,6 +26,8 @@ void keyPressed() {
     player1.updateCol(-1);
   } else if (key == 'd') {
     player1.updateCol(1);
+  } else if (key == 'p') {
+    pPressed = true; 
   }
 
 
@@ -181,8 +194,23 @@ void keyPressed() {
       room6.set_active(false);
       room7.addItem(player1, 15, 0); 
     }
-    
-    
   }
   
+  if(inRoom == 7){
+   
+    if(room7chair.row() == 5 && room7chair.col() == 29){
+      window7open = true;
+    }
+    
+    if(window7open && onItem(window7tocourt)){
+      //go to courtyard
+      
+    }
+    
+    
+    
+    
+    System.out.println("T");
+   
+  } 
 }

@@ -3,6 +3,8 @@
 int startColor, newColor; 
 float amt; 
 
+boolean pPressed = false;
+
 boolean GODMODE = true ;
 
 PFont font;
@@ -22,6 +24,8 @@ Enemy goon, goon2;
 
 RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt; // all doors 
 
+RoomItem room7chair ;
+
 PulseItem backpack; 
 PulseItem crowbar; 
 
@@ -33,7 +37,7 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-int inRoom = 1; 
+int inRoom = 7; 
 
 int totalClicks = 0;
 
@@ -55,13 +59,13 @@ int[][] door1 = {
 
 void setup() {
   size(1920, 1080);
-  
-  startColor = color(255,255,255);
-  newColor = color(random(30,100), random(30,100), random(30,100));
-  amt = 0;
-  background(startColor);
-  
-  
+
+  //startColor = color(255,255,255);
+  //newColor = color(random(30,100), random(30,100), random(30,100));
+  //amt = 0;
+  //background(startColor);
+
+
   font = loadFont("SitkaBanner-48.vlw");
   font_bold = loadFont("SitkaHeading-Bold-48.vlw");
   compass_img = loadImage("compass.png");
@@ -79,6 +83,11 @@ void setup() {
   room7 = new Room(90, 100, 31, 31, 20); 
 
   room7.set_active(true); 
+
+  room7chair = new RoomItem(0, 0);
+  int[][]chairData = {{0, 0}, 
+    {0, 0}};
+  initItem(room7chair, room7, chairData, "Chair", 29, 0);
 
   player1 = new RoomItem(2, 5); 
   int[][] player1Data = { {#AF1E1E} };
@@ -150,19 +159,19 @@ void setup() {
   };
   initItem(door6to7, room6, horizDoorData, "Door to Bedroom", 15, 30);
 
-  window7tocourt = new RoomItem(0,0);
+  window7tocourt = new RoomItem(0, 0);
   int[][]windowData = {
-    {#05ACF7},
-    {#05ACF7},
-    {#05ACF7},
+    {#05ACF7}, 
+    {#05ACF7}, 
+    {#05ACF7}, 
   };
-  initItem(window7tocourt, room7, windowData, "Window",  5, 30);
-  
-  
+  initItem(window7tocourt, room7, windowData, "Window", 5, 30);
 
   rm5Key = new PulseItem(30, 30);
   int[][] key5Data = {{ #C1BFBF }};
   initItem(rm5Key, room3, key5Data, "Key", 30, 30);
+
+
 
   fork = new PulseItem(2, 5);
   int[][]forkData = {{0}};
@@ -194,15 +203,17 @@ public void initItem(RoomItem item, Room room, int[][]itemData, String name, int
 
 
 void draw() {
-  background(lerpColor(startColor, newColor, amt));
-  amt += .002; 
-  if (amt >= 1){
-    amt = 0.0;
-    startColor = newColor; 
-    newColor = color(random(30, 100), random(30,100), random(30,100));
-  }
-  
-  
+  //background(lerpColor(startColor, newColor, amt));
+  //amt += .002; 
+  //if (amt >= 1){
+  //  amt = 0.0;
+  //  startColor = newColor; 
+  //  newColor = color(random(30, 100), random(30,100), random(30,100));
+  //}
+
+  background(#067C48);
+
+
   textFont(font_bold);
   textSize(20);
   fill(0);
@@ -295,6 +306,7 @@ void draw() {
   if (room7 != null && room7.isActive()) {
     room7.show();
     room7.displayItemOn();
+    pullItem(player1, room7chair);
     textSize(20);
     text(room7txt, 750, 60);
   }
@@ -380,6 +392,14 @@ public boolean isAttack(RoomItem player, RoomItem attackedItem, RoomItem neededI
     return true;
   }
   return false;
+}
+
+
+public void pullItem(RoomItem player, RoomItem pulled) {
+  if (pPressed) {
+    pulled.newRow(player.row());
+    pulled.newCol(player.col());
+  }
 }
 
 
