@@ -5,11 +5,10 @@ boolean window7open = false;
 int inventoryLocation = 0; 
 
 
-void keyReleased(){
-  if (key == 'p'){
+void keyReleased() {
+  if (key == 'p') {
     pPressed = false;
   }
-
 }
 
 
@@ -27,7 +26,7 @@ void keyPressed() {
   } else if (key == 'd') {
     player1.updateCol(1);
   } else if (key == 'p') {
-    pPressed = true; 
+    pPressed = true;
   }
 
 
@@ -124,9 +123,6 @@ void keyPressed() {
     if (onItem(door3to6) && inventory.size() > 0  && inventory.get(inventoryLocation) == rm5Key && clicks('x') >= 1 ) {
       door6open = true;
     }
-    
-    
-    
   }
 
   if (inRoom == 5) {
@@ -184,38 +180,50 @@ void keyPressed() {
       room5.addItem(player1, 30, 7);
     }
   }
-  
-  
-  if(inRoom == 6 ){
-    if(itemInteract(player1, door6to7, 'e')){
+
+
+  if (inRoom == 6 ) {
+    if (itemInteract(player1, door6to7, 'e')) {
       room7.set_active(true);
       inRoom = 7;
       room6.removeItem(player1);
       room6.set_active(false);
-      room7.addItem(player1, 15, 0); 
+      room7.addItem(player1, 15, 0);
     }
   }
-  
-  if(inRoom == 7){
-   
-    if(room7chair.row() == 5 && room7chair.col() == 29){
+
+  if (inRoom == 7) {
+
+    if (room7chair.row() == 5 && room7chair.col() == 29) {
       window7open = true;
     }
-    
-    if(window7open && itemInteract(player1, window7tocourt, 'e') ){
+
+    if (window7open && itemInteract(player1, window7tocourt, 'e') ) {
       room20.set_active(true);
       inRoom = 20;
       room7.removeItem(player1);
       room7.set_active(false);
       room20.addItem(player1, 5, 0);
-      
     }
-      
-    
-    
-    
-    
-    System.out.println("T");
-   
-  } 
+  }
+
+  if (inRoom == 8) {
+    if (itemInteract(player1, doorShedto20, 'e')) {
+      room20.set_active(true);
+      inRoom = 20;
+      room8.removeItem(player1);
+      room8.set_active(false);
+      room20.addItem(player1, 0, 79);
+    }
+  }
+
+  if (inRoom == 20) {
+    if (itemInteract(player1, door20toShed, 'e')) {
+      room8.set_active(true);
+      inRoom = 8;
+      room20.removeItem(player1);
+      room20.set_active(false);
+      room8.addItem(player1, 0, 0);
+    }
+  }
 }

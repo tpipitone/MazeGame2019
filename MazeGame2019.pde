@@ -3,6 +3,9 @@
 int startColor, newColor; 
 float amt; 
 
+boolean courtBlank = false; 
+boolean shedBlank = false; 
+
 boolean pPressed = false;
 boolean pullReady = false; 
 
@@ -19,12 +22,13 @@ Room room4;
 Room room5;
 Room room6; 
 Room room7;
-Room room20; // courtyard 
+BlankRoom room20; // courtyard 
+BlankRoom room8;  // shed in courtyard
 
 RoomItem player1;
 Enemy goon, goon2; 
 
-RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor; // all doors 
+RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor, door20toShed, doorShedto20; // all doors 
 
 RoomItem room7chair ;
 
@@ -39,7 +43,7 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-int inRoom = 7; 
+int inRoom = 20; 
 
 int totalClicks = 0;
 
@@ -72,10 +76,11 @@ void setup() {
   font_bold = loadFont("SitkaHeading-Bold-48.vlw");
   compass_img = loadImage("compass.png");
 
+
   //Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20, #4c5666); //(x, y, rows, cols, cellsize, hexColor)
-  // room1.set_active(true);
+  //  room1.set_active(true);
 
   room2 =  new Room(90, 100, 31, 31, 20, #4c5666);
   room3 = new Room(90, 100, 31, 31, 20, #4c5666);
@@ -83,9 +88,11 @@ void setup() {
   room5 = new Room(300, 100, 31, 10, 20, #4c5666);       //kitchen
   room6 = new Room(90, 100, 31, 31, 20, #4c5666);       //bathroom
   room7 = new Room(90, 100, 31, 31, 20, #4c5666);      //bedroom
-  room20 = new Room(90, 100, 35, 88, 20, #4c5666);   //courtyard
+  room20 = new BlankRoom(90, 100, 35, 88, 20, #8e4812, courtBlank, 0);    //courtyard
+  room8 = new BlankRoom(1710, 100, 7, 7, 20, #4c5666, shedBlank, #8E8787);    // shed 
 
-  room7.set_active(true); 
+  // room8.set_active(true); 
+  room20.set_active(true);
 
   room7chair = new RoomItem(0, 0);
   int[][]chairData = {{0, 0}, 
@@ -94,7 +101,7 @@ void setup() {
 
   player1 = new RoomItem(2, 5); 
   int[][] player1Data = { {#AF1E1E} };
-  initItem(player1, room7, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
+  initItem(player1, room20, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
   player1.addInventory(backpack);
 
 
@@ -115,7 +122,7 @@ void setup() {
 
 
   door1 = new RoomItem(2, 5);
-  door1.setName("door1");
+  door1.setName("Door1");
   int[][]door1Data ={{0, 0}};
   door1.setData(door1Data);
   room1.addItem(door1, 30, 0);
@@ -126,8 +133,8 @@ void setup() {
     {0}, 
   };
 
-  door2.setData(door2Data);
-  room1.addItem(door2, 0, 30);
+  initItem(door2, room1, door2Data, "Door 2", 0, 30); 
+
 
   prep_door = new RoomItem(2, 5);
   prep_door.setName("Prep Room Door");
@@ -164,6 +171,13 @@ void setup() {
 
   boardedDoor = new RoomItem(0, 0);
   initItem(boardedDoor, room7, horizDoorData, "Boarded Up Door", 15, 30);
+  
+  
+  door20toShed = new RoomItem(0,0);
+  initItem(door20toShed, room20, horizDoorData, "Shed Door", 0, 80);
+  
+  doorShedto20 = new RoomItem(0,0);
+  initItem(doorShedto20, room8, horizDoorData, "Shed Door " , 0,0);
 
   window7tocourt = new RoomItem(0, 0);
   int[][]windowData = {
@@ -233,13 +247,10 @@ void draw() {
 
 
   fill(0); 
-  if (inventory.contains(backpack)) {
-    textTimer(grabbedPack, 5, 750, 300);
-  }
 
-  if (inventory.contains(crowbar)) { 
-    textTimer(grabbedCrowbar, 5, 750, 350); //text, time, xloc, yloc
-  }
+
+
+
 
   if (room1 != null && room1.isActive()) {
     room1.show();
@@ -250,7 +261,9 @@ void draw() {
     textSize(20);
     text(room1txt, 750, 60);
 
-
+    if (inventory.contains(backpack)) {
+      textTimer(grabbedPack, 5, 750, 300);
+    }
 
 
     if (itemInteract(player1, door2, 'e') && (!door2open)) {
@@ -270,6 +283,10 @@ void draw() {
     textFont(font_bold);
     textSize(20);
     text(room2txt, 750, 60);
+
+    if (inventory.contains(crowbar)) { 
+      textTimer(grabbedCrowbar, 5, 750, 350); //text, time, xloc, yloc
+    }
   }
 
   if (room3 != null && room3.isActive ()) {
@@ -316,11 +333,11 @@ void draw() {
     if (onItem(room7chair)) {
       pullReady = true;
     }
-    
+
     if (pullReady) {
       pullItem(player1, room7chair);
     }
-    
+
     textSize(20);
     text(room7txt, 750, 60);
 
@@ -332,10 +349,28 @@ void draw() {
   }
 
   if (room20 != null && room20.isActive()) { // this here is the courtyard 
+    room20.setBlank(false);
     room20.show();
+    room8.show();
+    room8.setBlank(true);
+
     room20.displayItemOn();
     textSize(20);
     //text(crtYrdtxt, 0 ,60);
+  }
+
+
+  if (room8 != null && room8.isActive()) {
+    room8.setBlank(false);
+    room20.show();
+    room8.show();
+    room20.setBlank(true); 
+    
+
+
+
+    room8.displayItemOn();
+    textSize(20);
   }
 
 
@@ -409,8 +444,10 @@ public boolean onEnemy(Enemy villian) {
 
 
 public boolean itemInteract(RoomItem player, RoomItem item, char keyName) {
-  if (key == keyName && player.row() == item.row() && player.col() == item.col()) {
-    return true;
+  if (!inInventory(item) ) {
+    if (key == keyName && player.row() == item.row() && player.col() == item.col()) {
+      return true;
+    }
   }
   return false;
 }
@@ -430,6 +467,15 @@ public void pullItem(RoomItem player, RoomItem pulled) {
     pulled.newRow(player.row());
     pulled.newCol(player.col());
   }
+}
+
+public boolean inInventory(RoomItem item) {
+  for (RoomItem items : inventory) {
+    if (items.equals(item)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 
