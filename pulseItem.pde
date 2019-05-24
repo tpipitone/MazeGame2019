@@ -1,4 +1,4 @@
-public class PulseItem extends RoomItem {
+public class PulseItem extends RoomItem { // use this to indicate interactibility
 
   public PulseItem(int rowAt, int colAt) {
     super(rowAt, colAt);

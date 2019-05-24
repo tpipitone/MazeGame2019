@@ -9,12 +9,13 @@ public class Room {
 
   int x_pos, y_pos;  
   int cellSize;
+  int hexColor; 
   int rows, cols;
   int[][] layer;
   ArrayList<RoomItem> items;
   
 
-  public Room(int x, int y, int numRows, int numCols, int cellSize ) {
+  public Room(int x, int y, int numRows, int numCols, int cellSize, int hexColor ) {
     x_pos = x;
     y_pos = y;
     this.cellSize = cellSize;
@@ -22,6 +23,7 @@ public class Room {
     cols = numCols;
     layer = null;
     items = new ArrayList<RoomItem>();
+    this.hexColor = hexColor;
     
     
   }
@@ -67,7 +69,7 @@ public class Room {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;
         int yAt = j*cellSize;
-        fill(#654321);
+        fill(hexColor);
            //todo: think about what color we want
           //fill( ? )
          //stroke( ? ) //border color

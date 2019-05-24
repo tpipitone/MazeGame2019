@@ -4,6 +4,7 @@ int startColor, newColor;
 float amt; 
 
 boolean pPressed = false;
+boolean pullReady = false; 
 
 boolean GODMODE = true ;
 
@@ -17,12 +18,13 @@ Room room3;
 Room room4;
 Room room5;
 Room room6; 
-Room room7; 
+Room room7;
+Room room20; // courtyard 
 
 RoomItem player1;
 Enemy goon, goon2; 
 
-RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt; // all doors 
+RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor; // all doors 
 
 RoomItem room7chair ;
 
@@ -72,15 +74,16 @@ void setup() {
 
   //Timer timer = new Timer();
 
-  room1 = new Room(90, 100, 31, 31, 20); //(x, y, rows, cols, cellsize)
+  room1 = new Room(90, 100, 31, 31, 20, #4c5666); //(x, y, rows, cols, cellsize, hexColor)
   // room1.set_active(true);
 
-  room2 =  new Room(90, 100, 31, 31, 20);
-  room3 = new Room(90, 100, 31, 31, 20);
-  room4 = new Room(90, 100, 31, 31, 20);
-  room5 = new Room(300, 100, 31, 10, 20);
-  room6 = new Room(90, 100, 31, 31, 20);
-  room7 = new Room(90, 100, 31, 31, 20); 
+  room2 =  new Room(90, 100, 31, 31, 20, #4c5666);
+  room3 = new Room(90, 100, 31, 31, 20, #4c5666);
+  room4 = new Room(90, 100, 31, 31, 20, #4c5666);
+  room5 = new Room(300, 100, 31, 10, 20, #4c5666);       //kitchen
+  room6 = new Room(90, 100, 31, 31, 20, #4c5666);       //bathroom
+  room7 = new Room(90, 100, 31, 31, 20, #4c5666);      //bedroom
+  room20 = new Room(90, 100, 35, 88, 20, #4c5666);   //courtyard
 
   room7.set_active(true); 
 
@@ -158,6 +161,9 @@ void setup() {
     {0}, 
   };
   initItem(door6to7, room6, horizDoorData, "Door to Bedroom", 15, 30);
+
+  boardedDoor = new RoomItem(0, 0);
+  initItem(boardedDoor, room7, horizDoorData, "Boarded Up Door", 15, 30);
 
   window7tocourt = new RoomItem(0, 0);
   int[][]windowData = {
@@ -306,10 +312,32 @@ void draw() {
   if (room7 != null && room7.isActive()) {
     room7.show();
     room7.displayItemOn();
-    pullItem(player1, room7chair);
+
+    if (onItem(room7chair)) {
+      pullReady = true;
+    }
+    
+    if (pullReady) {
+      pullItem(player1, room7chair);
+    }
+    
     textSize(20);
     text(room7txt, 750, 60);
+
+    if ( !window7open && itemInteract(player1, window7tocourt, 'e')) {
+      text(windowHigh, 750, 500);
+    } else if (itemInteract(player1, boardedDoor, 'e')) {
+      text(doorHellaBoardedUp, 750, 500);
+    }
   }
+
+  if (room20 != null && room20.isActive()) { // this here is the courtyard 
+    room20.show();
+    room20.displayItemOn();
+    textSize(20);
+    //text(crtYrdtxt, 0 ,60);
+  }
+
 
 
 
@@ -321,9 +349,11 @@ void draw() {
 
   textFont(font_bold);
   textSize(70);
-
-  text("ROOM "+ inRoom, 275, 80);
-
+  if (inRoom != 20) {
+    text("ROOM "+ inRoom, 275, 80);
+  } else {
+    text("COURTYARD", width/2 - 100, 80);
+  }
 
   if (player1.health >= 50) {  // changes health bar color 
     fill(#03FA04);

@@ -202,10 +202,15 @@ void keyPressed() {
       window7open = true;
     }
     
-    if(window7open && onItem(window7tocourt)){
-      //go to courtyard
+    if(window7open && itemInteract(player1, window7tocourt, 'e') ){
+      room20.set_active(true);
+      inRoom = 20;
+      room7.removeItem(player1);
+      room7.set_active(false);
+      room20.addItem(player1, 5, 0);
       
     }
+      
     
     
     

@@ -26,7 +26,7 @@ String room5txt = "You have entered what looks like a prep room, filled with ute
 
 String room6txt = "You escaped the goon! Now you are in a bathroom";
 
-String room7txt = "You are in a bedroom. The outside door is bolted to a wall.\n"
+String room7txt = "You are in a bedroom. The outside door is boarded up.\n"
               + "There is an open window about 5 feet above the ground";
               
 String grabbedPack = "You picked up the backpack. Now you can carry things";
@@ -39,6 +39,8 @@ String door6locked = "This door is locked; you need a key";
 String door2isopen = "You broke the lock!";
 String door6isopen = "You unlock the door!";
 
+String doorHellaBoardedUp = "This door is boarded up.";
+String windowHigh = "This window is too high to climb without help."; 
 String currItem = "Current item:";
   
   
