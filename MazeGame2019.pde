@@ -4,12 +4,12 @@ int startColor, newColor;
 float amt; 
 
 boolean courtBlank = false; 
-boolean shedBlank = false; 
+boolean shedBlank  = false; 
 
-boolean pPressed = false;
-boolean pullReady = false; 
+boolean pPressed   = false;
+boolean pullReady  = false; 
 
-boolean GODMODE = true ;
+boolean GODMODE    = true ;
 
 PFont font;
 PFont font_bold;
@@ -25,17 +25,17 @@ Room room7;
 BlankRoom room20; // courtyard 
 BlankRoom room8;  // shed in courtyard
 
-RoomItem player1;
+Player player1;
 Enemy goon, goon2; 
 
 RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor, door20toShed, doorShedto20; // all doors 
-
+RoomItem river, upTree, downTree; 
 RoomItem room7chair ;
 
 PulseItem backpack; 
 PulseItem crowbar; 
 
-PulseItem fork, knife, spoon, mallet; // for room 5 kitchen 
+PulseItem fork, knife, spoon, mallet, chainsaw, gasCan, flashlight; 
 
 PulseItem rm5Key; 
 
@@ -43,7 +43,7 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-int inRoom = 20; 
+int inRoom = 1; 
 
 int totalClicks = 0;
 
@@ -53,14 +53,8 @@ int totalClicks = 0;
 
 
 
-/*
-int[][] door1 = {
- {50,100},
- {0},
- {0},
- {#8F2CB7}
- };
- */
+
+
 
 
 void setup() {
@@ -80,7 +74,7 @@ void setup() {
   //Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20, #4c5666); //(x, y, rows, cols, cellsize, hexColor)
-  //  room1.set_active(true);
+  room1.set_active(true);
 
   room2 =  new Room(90, 100, 31, 31, 20, #4c5666);
   room3 = new Room(90, 100, 31, 31, 20, #4c5666);
@@ -88,20 +82,29 @@ void setup() {
   room5 = new Room(300, 100, 31, 10, 20, #4c5666);       //kitchen
   room6 = new Room(90, 100, 31, 31, 20, #4c5666);       //bathroom
   room7 = new Room(90, 100, 31, 31, 20, #4c5666);      //bedroom
-  room20 = new BlankRoom(90, 100, 35, 88, 20, #8e4812, courtBlank, 0);    //courtyard
+  room20 = new BlankRoom(90, 100, 35, 88, 20, #654321, courtBlank, 0);    //courtyard
   room8 = new BlankRoom(1710, 100, 7, 7, 20, #4c5666, shedBlank, #8E8787);    // shed 
 
   // room8.set_active(true); 
-  room20.set_active(true);
+ // room20.set_active(true);
 
   room7chair = new RoomItem(0, 0);
   int[][]chairData = {{0, 0}, 
     {0, 0}};
   initItem(room7chair, room7, chairData, "Chair", 29, 0);
 
-  player1 = new RoomItem(2, 5); 
-  int[][] player1Data = { {#AF1E1E} };
-  initItem(player1, room20, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
+
+
+  river = new RoomItem(0, 0);
+  initItem(river, room20, riverData, "River", 11, 0); 
+
+  upTree = new RoomItem(0, 0);
+  initItem(upTree, room20, downTreeData, "Tall Tree", 15, 11); 
+
+
+  player1 = new Player(2, 5); 
+  //int[][] player1Data = { {#AF1E1E} };
+  initItem(player1, room1, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
   player1.addInventory(backpack);
 
 
@@ -119,6 +122,19 @@ void setup() {
   crowbar = new PulseItem(30, 30);
   int[][]crowbarData = { {80} };
   initItem(crowbar, room2, crowbarData, "Crowbar", 30, 30); 
+
+  chainsaw = new PulseItem(0, 5);
+  int[][]csData = {{#790D0D}};
+  initItem(chainsaw, room8, csData, "Chainsaw", 0, 6);
+
+  gasCan = new PulseItem(0, 0);
+  int[][]gcData = {{#F20000}};
+  initItem(gasCan, room8, gcData, "Gas Can", 2, 5);
+
+  flashlight = new PulseItem(0, 0);
+  int[][]flData = {{#E5D5D5}};
+  initItem(flashlight, room8, flData, "Flashlight", 3, 3); 
+
 
 
   door1 = new RoomItem(2, 5);
@@ -171,13 +187,13 @@ void setup() {
 
   boardedDoor = new RoomItem(0, 0);
   initItem(boardedDoor, room7, horizDoorData, "Boarded Up Door", 15, 30);
-  
-  
-  door20toShed = new RoomItem(0,0);
+
+
+  door20toShed = new RoomItem(0, 0);
   initItem(door20toShed, room20, horizDoorData, "Shed Door", 0, 80);
-  
-  doorShedto20 = new RoomItem(0,0);
-  initItem(doorShedto20, room8, horizDoorData, "Shed Door " , 0,0);
+
+  doorShedto20 = new RoomItem(0, 0);
+  initItem(doorShedto20, room8, horizDoorData, "Shed Door ", 0, 0);
 
   window7tocourt = new RoomItem(0, 0);
   int[][]windowData = {
@@ -365,7 +381,7 @@ void draw() {
     room20.show();
     room8.show();
     room20.setBlank(true); 
-    
+
 
 
 

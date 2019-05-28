@@ -17,6 +17,8 @@ void keyPressed() {
   textFont(font_bold);
   textSize(20);
 
+
+
   if (key== 'w') {
     player1.updateRow(-1);
   } else if (key == 's') {
@@ -38,6 +40,8 @@ void keyPressed() {
       inventoryLocation++; // sets inventory location when q pressed
     }
   }
+
+
 
 
 
@@ -215,7 +219,18 @@ void keyPressed() {
       room8.set_active(false);
       room20.addItem(player1, 0, 79);
     }
+    if (itemInteract(player1, gasCan, 'e')) {
+      player1.addInventory(gasCan);
+      room8.removeItem(gasCan);
+    } else if (itemInteract(player1, flashlight, 'e')) {
+      player1.addInventory(flashlight);
+      room8.removeItem(flashlight);
+    } else if (itemInteract(player1, chainsaw, 'e')){
+      player1.addInventory(chainsaw);
+      room8.removeItem(chainsaw); 
+    }
   }
+
 
   if (inRoom == 20) {
     if (itemInteract(player1, door20toShed, 'e')) {
