@@ -1,5 +1,10 @@
 //<>// //<>// //<>// //<>//
 
+
+
+
+
+
 int startColor, newColor; 
 float amt; 
 
@@ -22,13 +27,25 @@ Room room4;
 Room room5;
 Room room6; 
 Room room7;
+Room room9; 
+Room room10;
+Room room11; 
 BlankRoom room20; // courtyard 
 BlankRoom room8;  // shed in courtyard
+
+///use this to change starting room for work
+int inRoom = 20; 
+
+
+
 
 Player player1;
 Enemy goon, goon2; 
 
-RoomItem door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor, door20toShed, doorShedto20; // all doors 
+Door door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, window7tocourt, boardedDoor, door20toShed, doorShedto20,
+doorCourtto9, door9to10, door10to11; // all doors 
+
+
 RoomItem river, upTree, downTree; 
 RoomItem room7chair ;
 
@@ -43,7 +60,7 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-int inRoom = 1; 
+
 
 int totalClicks = 0;
 
@@ -74,7 +91,7 @@ void setup() {
   //Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20, #4c5666); //(x, y, rows, cols, cellsize, hexColor)
-  room1.set_active(true);
+
 
   room2 =  new Room(90, 100, 31, 31, 20, #4c5666);
   room3 = new Room(90, 100, 31, 31, 20, #4c5666);
@@ -84,9 +101,13 @@ void setup() {
   room7 = new Room(90, 100, 31, 31, 20, #4c5666);      //bedroom
   room20 = new BlankRoom(90, 100, 35, 88, 20, #654321, courtBlank, 0);    //courtyard
   room8 = new BlankRoom(1710, 100, 7, 7, 20, #4c5666, shedBlank, #8E8787);    // shed 
+  room9 = new Room(90, 100, 31, 31, 20, #4c5666);
+  room10  = new Room(90,250, 4, 88, 20, #4c5666);
+  room11 = new Room(90,100, 35, 80 ,20, #4c5666); 
 
+  //thisRoom.set_active(true);
   // room8.set_active(true); 
- // room20.set_active(true);
+  room20.set_active(true);
 
   room7chair = new RoomItem(0, 0);
   int[][]chairData = {{0, 0}, 
@@ -99,12 +120,16 @@ void setup() {
   initItem(river, room20, riverData, "River", 11, 0); 
 
   upTree = new RoomItem(0, 0);
-  initItem(upTree, room20, downTreeData, "Tall Tree", 15, 11); 
+  initItem(upTree, room20, upTreeData, "Tall Tree", 15, 11); 
+
+  downTree = new RoomItem(0, 0);
+  downTree.setName("Fallen tree");
+  downTree.setData(downTreeData);
 
 
   player1 = new Player(2, 5); 
   //int[][] player1Data = { {#AF1E1E} };
-  initItem(player1, room1, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
+  initItem(player1, room20, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
   player1.addInventory(backpack);
 
 
@@ -137,13 +162,13 @@ void setup() {
 
 
 
-  door1 = new RoomItem(2, 5);
+  door1 = new Door(2, 5);
   door1.setName("Door1");
   int[][]door1Data ={{0, 0}};
   door1.setData(door1Data);
   room1.addItem(door1, 30, 0);
 
-  door2 = new RoomItem(0, 30);
+  door2 = new Door(0, 30);
   int[][]door2Data = {
     {0}, 
     {0}, 
@@ -152,50 +177,59 @@ void setup() {
   initItem(door2, room1, door2Data, "Door 2", 0, 30); 
 
 
-  prep_door = new RoomItem(2, 5);
+  prep_door = new Door(2, 5);
   prep_door.setName("Prep Room Door");
   int[][]prep_doorData ={{0, 0}};
   prep_door.setData(prep_doorData);
   room4.addItem(prep_door, 0, 15);
   //room5.addItem(prep_door,30,7);
 
-  prep_door2 = new RoomItem(2, 5);
+  prep_door2 = new Door(2, 5);
   prep_door2.setName("Door To Room 5");
   int[][]prep_door2Data ={{0, 0}};
   prep_door2.setData(prep_door2Data);
   room5.addItem(prep_door2, 30, 7);
 
-  door4 = new RoomItem(2, 5);
+  door4 = new Door(2, 5);
   initItem(door4, room4, prep_door2Data, "Room 3 Door", 30, 0);
 
-  door3 = new RoomItem(2, 5);
+  door3 = new Door(2, 5);
   initItem(door3, room3, prep_door2Data, "Room 4 Door", 0, 0);
 
-  door3to6 = new RoomItem(2, 5);
+  door3to6 = new Door(2, 5);
   int[][]sideWaysDoorData ={{0, 0}};
   initItem(door3to6, room3, sideWaysDoorData, "Door to Bathroom", 30, 0);
 
-  door6to3 = new RoomItem(2, 5);
+  door6to3 = new Door(2, 5);
   initItem(door6to3, room6, sideWaysDoorData, "Door to Room 3", 0, 0);
 
-  door6to7 = new RoomItem(2, 5);
+  door6to7 = new Door(2, 5);
   int[][]horizDoorData =  {
     {0}, 
     {0}, 
   };
   initItem(door6to7, room6, horizDoorData, "Door to Bedroom", 15, 30);
 
-  boardedDoor = new RoomItem(0, 0);
+  boardedDoor = new Door(0, 0);
   initItem(boardedDoor, room7, horizDoorData, "Boarded Up Door", 15, 30);
 
 
-  door20toShed = new RoomItem(0, 0);
+  door20toShed = new Door(0, 0);
   initItem(door20toShed, room20, horizDoorData, "Shed Door", 0, 80);
 
-  doorShedto20 = new RoomItem(0, 0);
+  doorShedto20 = new Door(0, 0);
   initItem(doorShedto20, room8, horizDoorData, "Shed Door ", 0, 0);
+  
+  doorCourtto9 = new Door(0,0);
+  initItem(doorCourtto9, room20, sideWaysDoorData, "Door Back Inside", 34, 0); 
+  
+  door9to10 = new Door(0,0);
+  initItem(door9to10, room9, horizDoorData, "Room 10 Door", 29,30);
+  
+  door10to11 = new Door(0,0);
+  initItem(door10to11, room10, horizDoorData, "FINAL ROOM" , 0, 87);
 
-  window7tocourt = new RoomItem(0, 0);
+  window7tocourt = new Door(0, 0);
   int[][]windowData = {
     {#05ACF7}, 
     {#05ACF7}, 
@@ -265,6 +299,9 @@ void draw() {
   fill(0); 
 
 
+  if (treeDown) {
+    room20.addItem(downTree, 15, 11);
+  }
 
 
 
@@ -387,6 +424,28 @@ void draw() {
 
     room8.displayItemOn();
     textSize(20);
+  }
+  
+  if(room9 != null && room9.isActive()){
+    room9.show();
+    room9.displayItemOn();
+    textSize(20);
+  }
+  
+  if(room10 != null && room10.isActive()){
+    room10.show();
+    room10.displayItemOn();
+    textSize(20);
+    
+    
+    
+  }
+  
+  if(room11 != null && room11.isActive()){
+    room11.show();
+    room11.displayItemOn();
+    textSize(20); 
+  
   }
 
 

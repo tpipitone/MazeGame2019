@@ -64,7 +64,9 @@ public class Room {
   public void show() {
     pushMatrix();
     translate(x_pos, y_pos);
-
+    //strokeWeight(2);
+    //line(x_pos,y_pos,  (rows *cellSize) , (cols * cellSize)); 
+    
     for (int j=0; j< rows; j++) {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;

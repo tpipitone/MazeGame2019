@@ -1,6 +1,7 @@
 boolean door2open = false; 
 boolean door6open = false; 
 boolean window7open = false; 
+boolean treeDown = false;
 
 int inventoryLocation = 0; 
 
@@ -225,9 +226,9 @@ void keyPressed() {
     } else if (itemInteract(player1, flashlight, 'e')) {
       player1.addInventory(flashlight);
       room8.removeItem(flashlight);
-    } else if (itemInteract(player1, chainsaw, 'e')){
+    } else if (itemInteract(player1, chainsaw, 'e')) {
       player1.addInventory(chainsaw);
-      room8.removeItem(chainsaw); 
+      room8.removeItem(chainsaw);
     }
   }
 
@@ -239,6 +240,40 @@ void keyPressed() {
       room20.removeItem(player1);
       room20.set_active(false);
       room8.addItem(player1, 0, 0);
+    }
+
+    if ((onItem(upTree) && inventory.size() > 0  && inventory.get(inventoryLocation) == chainsaw && clicks('x') >= 6 )) {
+      room20.removeItem(player1); 
+      room20.addItem(downTree, 15, 11);
+      room20.removeItem(upTree);
+      room20.addItem(player1, 15, 11);
+    }
+
+    if (itemInteract(player1, doorCourtto9, 'e')) {
+      room9.set_active(true);
+      inRoom = 9;
+      room20.removeItem(player1);
+      room20.set_active(false);
+      room9.addItem(player1, 0, 0);
+    }
+  }
+
+  if (inRoom == 9) {
+    if (itemInteract(player1, door9to10, 'e')) {
+      room10.set_active(true);
+      inRoom = 10;
+      room9.removeItem(player1);
+      room9.set_active(false);
+      room10.addItem(player1, 0, 0);
+    }
+  }
+  if (inRoom == 10) {
+    if (itemInteract(player1, door10to11, 'e')) {
+      room11.set_active(true);
+      inRoom = 11;
+      room10.removeItem(player1);
+      room10.set_active(false);
+      room11.addItem(player1, 0, 0);
     }
   }
 }
