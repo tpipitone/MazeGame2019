@@ -7,9 +7,9 @@ public class RoomItem {
   //TODO: This might not be the best way to track
   //but we need to know when we are out of bounds
   protected int maxRow, maxCol;
-  
+
   int health = 100; 
-  
+
   protected int[][] glyphData;
 
   protected String itemName;
@@ -52,7 +52,7 @@ public class RoomItem {
   public void removeInventory(RoomItem inv_item) {
     inventory.remove(inv_item);
   }
-  
+
 
 
 
@@ -69,17 +69,10 @@ public class RoomItem {
         }
       }
     }
-
-
-
-    fill(0);
-    smooth();
-    textSize(30);
-    if (inventory.size() > 0 && inventory.contains(backpack)) {
-      text("PLAYER INVENTORY: " + inventory.toString().replace("[", "").replace("]", ""), 50, 670); // displays the inventory of an item /// removes ugly brackets
-      text("CURRENT ITEM: " + inventory.get(inventoryLocation), 50, 730);
-    }
   }
+
+
+
 
   public void setBounds(int rows, int cols) {
     maxRow = rows;
