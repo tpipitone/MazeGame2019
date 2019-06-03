@@ -3,10 +3,10 @@ public class Enemy extends RoomItem {
   //PVector villian;
   PVector villian = new PVector(500, 500, 0);
   float villianSpeed = 3;
-  RoomItem player1;
+  Player player1;
   public int health; 
 
-  public Enemy(int rowAt, int colAt, RoomItem player1) {
+  public Enemy(int rowAt, int colAt, Player player1) {
     super(rowAt, colAt);
     this.player1 = player1;
     villian.x = rowAt * 20;
@@ -25,8 +25,8 @@ public class Enemy extends RoomItem {
           fill(fillColor);
           image(farmer, villian.x, villian.y, cellSize, cellSize  );
 
-          float angle = atan2( ( player1.row() * cellSize ) - villian.y, ( player1.col() * cellSize ) - villian.x); // gets the item to follow player1
-          float newX = cos(angle) * villianSpeed + villian.x;
+         float angle = atan2( ( player1.row() * cellSize ) - villian.y, ( player1.col() * cellSize ) - villian.x); // gets the item to follow player1
+         float newX = cos(angle) * villianSpeed + villian.x;
           float newY = sin(angle) * villianSpeed + villian.y;
           villian.set(newX, newY, 0);
         }

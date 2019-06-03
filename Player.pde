@@ -30,6 +30,15 @@ public class Player extends RoomItem {
     return onThis; 
   }
   
+  public int row() { 
+    return rowId;
+  } // row = x 
+
+  public int col() { 
+    return colId;
+  } // col = y
+ 
+  
   
   
 }

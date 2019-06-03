@@ -1,5 +1,4 @@
-//<>// //<>// //<>// //<>//
-
+//<>// //<>// //<>//
 
 
 
@@ -10,6 +9,8 @@ PImage egg;
 PImage crowbarImg; 
 PImage chainsawImg; 
 PImage backpackImg; 
+PImage keyImg;
+
 int startColor, newColor; 
 float amt; 
 
@@ -40,14 +41,15 @@ BlankRoom room20; // courtyard
 BlankRoom room8;  // shed in courtyard
 
 ///use this to change starting room for work
-int inRoom = 1; 
+int inRoom = 3; 
 
-ClipArt chEgg, crowbar, chainsaw; // backpack; 
+ClipArt chEgg, crowbar, chainsaw, rm5Key; // backpack; 
 
 VillagerChicken ch; 
 
 Player player1;
-Enemy goon, goon2; 
+
+Enemy goon;
 
 Door door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, boardedDoor, door20toShed, doorShedto20, 
   doorCourtto9, door9to10, door10to11, door11to12; // all doors 
@@ -59,7 +61,7 @@ PulseItem backpack;
 
 PulseItem fork, knife, spoon, mallet, gasCan, flashlight, feed1, feed2; 
 
-PulseItem rm5Key; 
+
 
 StopWatch sw = new StopWatch();
 
@@ -89,6 +91,7 @@ void setup() {
   egg = loadImage("egg.png");
   crowbarImg = loadImage("crowbar.png"); 
   chainsawImg = loadImage("chainsaw.png"); 
+  keyImg = loadImage("key.png"); 
   //startColor = color(255,255,255);
   //newColor = color(random(30,100), random(30,100), random(30,100));
   //amt = 0;
@@ -102,25 +105,25 @@ void setup() {
 
   //Timer timer = new Timer();
 
-  room1 = new Room(90, 100, 31, 31, 20, #4c5666); //(x, y, rows, cols, cellsize, hexColor)
+  room1 = new Room(90, 100, 31, 31, 20, #a34e00); //(x, y, rows, cols, cellsize, hexColor)
 
 
-  room2 =  new Room(90, 100, 31, 31, 20, #4c5666);
-  room3 = new Room(90, 100, 31, 31, 20, #4c5666);
-  room4 = new Room(90, 100, 31, 31, 20, #4c5666);
-  room5 = new Room(300, 100, 31, 10, 20, #4c5666);       //kitchen
-  room6 = new Room(90, 100, 31, 31, 20, #4c5666);       //bathroom
-  room7 = new Room(90, 100, 31, 31, 20, #4c5666);      //bedroom
+  room2 =  new Room(90, 100, 31, 31, 20, #a34e00);
+  room3 = new Room(90, 100, 31, 31, 20, #a34e00);
+  room4 = new Room(90, 100, 31, 31, 20, #a34e00);
+  room5 = new Room(300, 100, 31, 10, 20, #a34e00);       //kitchen
+  room6 = new Room(90, 100, 31, 31, 20, #a34e00);       //bathroom
+  room7 = new Room(90, 100, 31, 31, 20, #a34e00);      //bedroom
   room20 = new BlankRoom(90, 100, 35, 88, 20, #654321, courtBlank, 0);    //courtyard
-  room8 = new BlankRoom(1710, 100, 7, 7, 20, #4c5666, shedBlank, #8E8787);    // shed 
-  room9 = new Room(90, 100, 31, 31, 20, #4c5666);
-  room10  = new Room(90, 250, 4, 88, 20, #4c5666);
-  room11 = new Room(90, 100, 35, 80, 20, #4c5666); 
+  room8 = new BlankRoom(1710, 100, 7, 7, 20, #a34e00, shedBlank, #8E8787);    // shed 
+  room9 = new Room(90, 100, 31, 31, 20, #a34e00);
+  room10  = new Room(90, 250, 4, 88, 20, #a34e00);
+  room11 = new Room(90, 100, 35, 80, 20, #a34e00); 
   room12 = new Room(90, 100, 35, 80, 20, #067C48); 
 
   //thisRoom.set_active(true);
   // room8.set_active(true); 
-  room1.set_active(true);
+  room3.set_active(true);
 
   room7chair = new RoomItem(0, 0);
   int[][]chairData = {{0, 0}, 
@@ -143,10 +146,6 @@ void setup() {
   downTree.setData(downTreeData);
 
 
-  player1 = new Player(2, 5); 
-  //int[][] player1Data = { {#AF1E1E} };
-  initItem(player1, room1, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
-  //player1.addInventory(backpack);
 
 
   goon = new Enemy(30, 30, player1);
@@ -268,7 +267,7 @@ void setup() {
   };
   initItem(window7tocourt, room7, windowData, "Window", 5, 30);
 
-  rm5Key = new PulseItem(30, 30);
+  rm5Key = new ClipArt(30, 30, keyImg, 1 );
   int[][] key5Data = {{ #C1BFBF }};
   initItem(rm5Key, room3, key5Data, "Key", 30, 30);
 
@@ -290,6 +289,12 @@ void setup() {
   int[][]malletData = {{0}};
   initItem(mallet, room5, malletData, "Mallet", 0, 6);
 
+  player1 = new Player(2, 5); 
+  //int[][] player1Data = { {#AF1E1E} };
+  initItem(player1, room3, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
+  //player1.addInventory(backpack);
+
+
   for ( int i=0; i < friendlies.length; i++) {
     friendlies[i] = new VillagerChicken((int)random(10), (int)random(10));
     //  initItem(friendlies[i], room12, malletData, "Villlager Chicken", 0, 5); 
@@ -298,7 +303,7 @@ void setup() {
   }
 
   for ( int i=0; i < enemyArr.length; i++) {
-    enemyArr[i] = new Enemy((int)random(20), (int)random(20), player1);
+    enemyArr[i] = new Enemy((int)random(80), (int)random(80), player1);
     initItem(enemyArr[i], room11, malletData, "Villlager Chicken", 0, 5);
   }
 }
@@ -358,9 +363,10 @@ void draw() {
 
   if (room1 != null && room1.isActive()) {
     room1.show();
+    fill(0);
     room1.displayItemOn();
 
-    fill(0);
+
     textFont(font_bold);
     textSize(20);
     text(room1txt, 750, 60);
@@ -383,7 +389,9 @@ void draw() {
 
   if (room2 != null && room2.isActive()) {
     room2.show();
+    fill(0);
     room2.displayItemOn();
+    fill(0);
     textFont(font_bold);
     textSize(20);
     text(room2txt, 750, 60);
@@ -395,7 +403,9 @@ void draw() {
 
   if (room3 != null && room3.isActive ()) {
     room3.show();
+    //fill(0);
     room3.displayItemOn();
+
     text(room3txt, 750, 60);
 
     if (onEnemy(goon)) {   // if touching enemy lower health
@@ -411,14 +421,18 @@ void draw() {
 
   if (room4 != null && room4.isActive()) {
     room4.show();
+    fill(0);
     room4.displayItemOn();
+
     textSize(20);
     text(room4txt, 750, 60);
   }
 
   if (room5 != null && room5.isActive()) {
     room5.show();
+    fill(0);
     room5.displayItemOn();
+
     textSize(20);
     text(room5txt, 750, 60);
   }
@@ -441,7 +455,7 @@ void draw() {
     if (pullReady) {
       pullItem(player1, room7chair);
     }
-
+    fill(0);
     textSize(20);
     text(room7txt, 750, 60);
 
@@ -457,7 +471,7 @@ void draw() {
     room20.show();
     room8.show();
     room8.setBlank(true);
-
+    fill(0);
     room20.displayItemOn();
     textSize(20);
     //text(crtYrdtxt, 0 ,60);
@@ -472,32 +486,34 @@ void draw() {
 
 
 
-
+    fill(0);
     room8.displayItemOn();
     textSize(20);
   }
 
   if (room9 != null && room9.isActive()) {
     room9.show();
+    fill(0);
     room9.displayItemOn();
     textSize(20);
   }
 
   if (room10 != null && room10.isActive()) {
     room10.show();
+    fill(0);
     room10.displayItemOn();
     textSize(20);
   }
 
   if (room11 != null && room11.isActive()) {
     room11.show();
-    System.out.print("YE");
+    fill(0);
     room11.displayItemOn();
     textSize(20);
     int loop = 0; 
     if (loop == enemyArr.length-1) {
       loop = 0;
-      System.out.print("YE");
+     // System.out.print("YE");
     } else if (onEnemy(enemyArr[loop])) {
       player1.health--;
     } else {
@@ -507,6 +523,7 @@ void draw() {
 
   if (room12 != null && room12.isActive()) {
     room12.show();
+    fill(0);
     room12.displayItemOn();
     textSize(20);
   }
