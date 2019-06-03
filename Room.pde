@@ -64,20 +64,14 @@ public class Room {
   public void show() {
     pushMatrix();
     translate(x_pos, y_pos);
-    //strokeWeight(2);
-    //line(x_pos,y_pos,  (rows *cellSize) , (cols * cellSize)); 
+    rect(100,50,50, 100); 
+ 
     
     for (int j=0; j< rows; j++) {
       for (int i=0; i < cols; i++) {
         int xAt = i*cellSize;
         int yAt = j*cellSize;
         fill(hexColor);
-           //todo: think about what color we want
-          //fill( ? )
-         //stroke( ? ) //border color
-        //strokeWeight( ? ) // thickness of cell border
-       //fill(255);
-
         rect(xAt, yAt, cellSize, cellSize);
         drawLayerCell(j, i, xAt, yAt);
       }

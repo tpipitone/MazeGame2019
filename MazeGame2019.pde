@@ -3,8 +3,13 @@
 
 
 
-
-
+PImage chicken; 
+PImage monster; 
+PImage farmer ; 
+PImage egg; 
+PImage crowbarImg; 
+PImage chainsawImg; 
+PImage backpackImg; 
 int startColor, newColor; 
 float amt; 
 
@@ -30,29 +35,29 @@ Room room7;
 Room room9; 
 Room room10;
 Room room11; 
+Room room12 ;
 BlankRoom room20; // courtyard 
 BlankRoom room8;  // shed in courtyard
 
 ///use this to change starting room for work
 int inRoom = 1; 
 
+ClipArt chEgg, crowbar, chainsaw; // backpack; 
 
-
+VillagerChicken ch; 
 
 Player player1;
 Enemy goon, goon2; 
 
-Door door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7,  boardedDoor, door20toShed, doorShedto20, 
-  doorCourtto9, door9to10, door10to11; // all doors 
+Door door1, door2, prep_door, prep_door2, door4, door3, door5, door3to6, door6to3, door6to7, boardedDoor, door20toShed, doorShedto20, 
+  doorCourtto9, door9to10, door10to11, door11to12; // all doors 
 RoomItem window7tocourt; 
 
 RoomItem river, upTree, downTree; 
 RoomItem room7chair ;
-
 PulseItem backpack; 
-PulseItem crowbar; 
 
-PulseItem fork, knife, spoon, mallet, chainsaw, gasCan, flashlight; 
+PulseItem fork, knife, spoon, mallet, gasCan, flashlight, feed1, feed2; 
 
 PulseItem rm5Key; 
 
@@ -60,7 +65,8 @@ StopWatch sw = new StopWatch();
 
 int size = 20;
 
-
+VillagerChicken[] friendlies = new VillagerChicken[1000]; 
+Enemy[] enemyArr = new Enemy[1000];
 
 int totalClicks = 0;
 
@@ -76,7 +82,13 @@ int totalClicks = 0;
 
 void setup() {
   size(1920, 1080);
-
+  // backpackImg = loadImage("backpack.png"); 
+  chicken = loadImage("chicken.png");
+  monster = loadImage("monster.png");
+  farmer = loadImage("farmer.png"); 
+  egg = loadImage("egg.png");
+  crowbarImg = loadImage("crowbar.png"); 
+  chainsawImg = loadImage("chainsaw.png"); 
   //startColor = color(255,255,255);
   //newColor = color(random(30,100), random(30,100), random(30,100));
   //amt = 0;
@@ -104,6 +116,7 @@ void setup() {
   room9 = new Room(90, 100, 31, 31, 20, #4c5666);
   room10  = new Room(90, 250, 4, 88, 20, #4c5666);
   room11 = new Room(90, 100, 35, 80, 20, #4c5666); 
+  room12 = new Room(90, 100, 35, 80, 20, #067C48); 
 
   //thisRoom.set_active(true);
   // room8.set_active(true); 
@@ -114,7 +127,10 @@ void setup() {
     {0, 0}};
   initItem(room7chair, room7, chairData, "Chair", 29, 0);
 
-
+  chEgg = new ClipArt(0, 0, egg, 1);
+  int[][]eggData = {{0}}; 
+  chEgg.setData(eggData);
+  chEgg.setName("Egg"); 
 
   river = new RoomItem(0, 0);
   initItem(river, room20, riverData, "River", 11, 0); 
@@ -139,16 +155,28 @@ void setup() {
 
 
 
-  backpack = new PulseItem (10, 10);
-  int[][] backpackData = { { #B5651D } };
+
+
+
+  crowbar = new ClipArt(0, 0, crowbarImg, 1.25);
+  int[][]crowbarData = { {80} };
+  initItem(crowbar, room2, crowbarData, "Crowbar", 28, 28); 
+
+  backpack = new PulseItem(10, 10);
+  int[][] backpackData = { { #C6A34A } };
   initItem(backpack, room1, backpackData, "Backpack", 10, 10);
 
+  feed1 = new PulseItem(0, 0);
+  int[][]feedData = {{#BDBF9C}}; 
+  initItem(feed1, room6, feedData, "Chicken Feed", 0, 30);
 
-  crowbar = new PulseItem(30, 30);
-  int[][]crowbarData = { {80} };
-  initItem(crowbar, room2, crowbarData, "Crowbar", 30, 30); 
+  feed2 = new PulseItem(0, 0);
+  initItem(feed2, room6, feedData, "Chicken Feed", 5, 30);
 
-  chainsaw = new PulseItem(0, 5);
+
+
+
+  chainsaw = new ClipArt(0, 5, chainsawImg, 1);
   int[][]csData = {{#790D0D}};
   initItem(chainsaw, room8, csData, "Chainsaw", 0, 6);
 
@@ -229,6 +257,9 @@ void setup() {
   door10to11 = new Door(0, 0, false );
   initItem(door10to11, room10, horizDoorData, "FINAL ROOM", 0, 87);
 
+  door11to12 = new Door(0, 0, true );
+  initItem(door11to12, room11, horizDoorData, "ESCAPE DOOR", 20, 79);
+
   window7tocourt = new RoomItem(0, 0);
   int[][]windowData = {
     {#05ACF7}, 
@@ -258,6 +289,18 @@ void setup() {
   mallet = new PulseItem(2, 5);
   int[][]malletData = {{0}};
   initItem(mallet, room5, malletData, "Mallet", 0, 6);
+
+  for ( int i=0; i < friendlies.length; i++) {
+    friendlies[i] = new VillagerChicken((int)random(10), (int)random(10));
+    //  initItem(friendlies[i], room12, malletData, "Villlager Chicken", 0, 5); 
+    room12.addItem(friendlies[i], (int)random(50), (int) random(20));
+    friendlies[i].setName("Villager Chicken");
+  }
+
+  for ( int i=0; i < enemyArr.length; i++) {
+    enemyArr[i] = new Enemy((int)random(20), (int)random(20), player1);
+    initItem(enemyArr[i], room11, malletData, "Villlager Chicken", 0, 5);
+  }
 }
 
 public void initItem(RoomItem item, Room room, int[][]itemData, String name, int row, int col) {
@@ -297,8 +340,8 @@ void draw() {
   smooth();
   textSize(30);
   if (inventory.size() > 0 && inventory.contains(backpack)) {
-    text("PLAYER INVENTORY: " + inventory.toString().replace("[", "").replace("]", ""), 75, 850); // displays the inventory of an item /// removes ugly brackets
-    text("CURRENT ITEM: " + inventory.get(inventoryLocation), 75, 780);
+    text("PLAYER INVENTORY: " + inventory.toString().replace("[", "").replace("]", ""), 100, 875); // displays the inventory of an item /// removes ugly brackets
+    text("CURRENT ITEM: " + inventory.get(inventoryLocation), 100, 830);
   }
 
 
@@ -448,9 +491,26 @@ void draw() {
 
   if (room11 != null && room11.isActive()) {
     room11.show();
+    System.out.print("YE");
     room11.displayItemOn();
     textSize(20);
+    int loop = 0; 
+    if (loop == enemyArr.length-1) {
+      loop = 0;
+      System.out.print("YE");
+    } else if (onEnemy(enemyArr[loop])) {
+      player1.health--;
+    } else {
+      loop++;
+    }
   }
+
+  if (room12 != null && room12.isActive()) {
+    room12.show();
+    room12.displayItemOn();
+    textSize(20);
+  }
+
 
 
 

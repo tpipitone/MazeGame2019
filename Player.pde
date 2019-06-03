@@ -12,7 +12,7 @@ public class Player extends RoomItem {
           fill(fillColor);
           int x = xAt + col*cellSize;
           int y = yAt + row*cellSize;
-          ellipse(x, y, cellSize, cellSize);
+          image(chicken, x  - 10, y - 10, cellSize, cellSize);
         }
       }
     }

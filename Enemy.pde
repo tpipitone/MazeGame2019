@@ -23,7 +23,7 @@ public class Enemy extends RoomItem {
         int fillColor = glyphData[row][col];
         if (fillColor != -1) {
           fill(fillColor);
-          rect(villian.x, villian.y, cellSize, cellSize  );
+          image(farmer, villian.x, villian.y, cellSize, cellSize  );
 
           float angle = atan2( ( player1.row() * cellSize ) - villian.y, ( player1.col() * cellSize ) - villian.x); // gets the item to follow player1
           float newX = cos(angle) * villianSpeed + villian.x;

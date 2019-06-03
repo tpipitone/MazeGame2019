@@ -25,6 +25,7 @@ void keyPressed() {
   } else if (key == 's') {
     player1.updateRow(1);
   } else if (key == 'a' ) {
+
     player1.updateCol(-1);
   } else if (key == 'd') {
     player1.updateCol(1);
@@ -49,7 +50,9 @@ void keyPressed() {
 
   if (inRoom == 1) {
 
-
+    if (key == 'r') {
+      room1.addItem(chEgg, player1.row(), player1.col());
+    }
 
 
     if (itemInteract(player1, backpack, 'e')) {
@@ -125,7 +128,7 @@ void keyPressed() {
       room3.removeItem(rm5Key);
     }
 
-    if (onItem(door3to6) && inventory.size() > 0  && inventory.get(inventoryLocation) == rm5Key && clicks('x') >= 1 ) {
+    if (onItem(door3to6)  && inventory.get(inventoryLocation) == rm5Key && clicks('x') >= 1 ) {
       door6open = true;
     }
   }
@@ -194,6 +197,17 @@ void keyPressed() {
       room6.removeItem(player1);
       room6.set_active(false);
       room7.addItem(player1, 15, 0);
+    }
+
+
+    if (player1.health <= 70) {
+      if (itemInteract(player1, feed1, 'e')) {
+        player1.health+=30;
+        room6.removeItem(feed1);
+      } else if (itemInteract(player1, feed2, 'e')) {
+        player1.health+=30;
+        room6.removeItem(feed2);
+      }
     }
   }
 
@@ -274,6 +288,16 @@ void keyPressed() {
       room10.removeItem(player1);
       room10.set_active(false);
       room11.addItem(player1, 0, 0);
+    }
+  }
+
+  if (inRoom == 11) {
+    if (itemInteract(player1, door11to12, 'e')) {
+      room12.set_active(true);
+      inRoom = 12;
+      room11.removeItem(player1);
+      room11.set_active(false);
+      room12.addItem(player1, 20, 0);
     }
   }
 }
