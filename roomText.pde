@@ -3,7 +3,9 @@ String help =
   + "WASD - Movement\n"
   + "E - Interact (Pick Up / Open)\n"
   + "Q - Change Item\n"
-  + "X - Use Item";
+  + "X - Use Item\n"
+  + "P - Pull Item";
+  
 
 
 
@@ -17,7 +19,7 @@ String room1txt =
 String room2txt = "You enter a  dimly lit room, there is a shiny, large item laying in the far corner.\n"
   + "Maybe some type of tool?";
 
-String room3txt = "A goon leaps out at you! You must escape before it attacks you!";
+String room3txt = "A farmer leaps out at you! You must escape before it captures you!";
 
 String room4txt = "  You are in a kitchen now. To your north, you see a door with a sign labeled 'PREP ROOM'.\n" +
   "To the south, there is another door. You can see flickering lights through the cracks and hear faint grunting.";
@@ -111,3 +113,5 @@ int[][]downTreeData = {
   {brn, brn, brn, brn}, 
   {brn, brn, brn, brn}, 
 };
+
+String winnerTxt = "You escape! You have been reunited with your chicken friends!";

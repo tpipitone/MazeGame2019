@@ -10,6 +10,7 @@ PImage crowbarImg;
 PImage chainsawImg; 
 PImage backpackImg; 
 PImage keyImg;
+PImage gasImg; 
 
 int startColor, newColor; 
 float amt; 
@@ -41,9 +42,9 @@ BlankRoom room20; // courtyard
 BlankRoom room8;  // shed in courtyard
 
 ///use this to change starting room for work
-int inRoom = 3; 
+int inRoom = 1; 
 
-ClipArt chEgg, crowbar, chainsaw, rm5Key; // backpack; 
+ClipArt chEgg, crowbar, chainsaw, rm5Key, gasCan; // backpack; 
 
 VillagerChicken ch; 
 
@@ -59,7 +60,7 @@ RoomItem river, upTree, downTree;
 RoomItem room7chair ;
 PulseItem backpack; 
 
-PulseItem fork, knife, spoon, mallet, gasCan, flashlight, feed1, feed2; 
+PulseItem fork, knife, spoon, mallet,  flashlight, feed1, feed2; 
 
 
 
@@ -92,6 +93,7 @@ void setup() {
   crowbarImg = loadImage("crowbar.png"); 
   chainsawImg = loadImage("chainsaw.png"); 
   keyImg = loadImage("key.png"); 
+  gasImg = loadImage("gascan.png"); 
   //startColor = color(255,255,255);
   //newColor = color(random(30,100), random(30,100), random(30,100));
   //amt = 0;
@@ -106,8 +108,7 @@ void setup() {
   //Timer timer = new Timer();
 
   room1 = new Room(90, 100, 31, 31, 20, #a34e00); //(x, y, rows, cols, cellsize, hexColor)
-
-
+  
   room2 =  new Room(90, 100, 31, 31, 20, #a34e00);
   room3 = new Room(90, 100, 31, 31, 20, #a34e00);
   room4 = new Room(90, 100, 31, 31, 20, #a34e00);
@@ -123,7 +124,10 @@ void setup() {
 
   //thisRoom.set_active(true);
   // room8.set_active(true); 
-  room3.set_active(true);
+  room1.set_active(true);
+
+  player1 = new Player(2, 5); 
+  initItem(player1, room1, player1Data, "Player 1", 0, 0); 
 
   room7chair = new RoomItem(0, 0);
   int[][]chairData = {{0, 0}, 
@@ -179,7 +183,7 @@ void setup() {
   int[][]csData = {{#790D0D}};
   initItem(chainsaw, room8, csData, "Chainsaw", 0, 6);
 
-  gasCan = new PulseItem(0, 0);
+  gasCan = new ClipArt(0, 0, gasImg, 1);
   int[][]gcData = {{#F20000}};
   initItem(gasCan, room8, gcData, "Gas Can", 2, 5);
 
@@ -289,9 +293,9 @@ void setup() {
   int[][]malletData = {{0}};
   initItem(mallet, room5, malletData, "Mallet", 0, 6);
 
-  player1 = new Player(2, 5); 
+  
   //int[][] player1Data = { {#AF1E1E} };
-  initItem(player1, room3, player1Data, "Player 1", 0, 0); // change rm to noty have to navigate 
+  // change rm to noty have to navigate 
   //player1.addInventory(backpack);
 
 
@@ -525,7 +529,8 @@ void draw() {
     room12.show();
     fill(0);
     room12.displayItemOn();
-    textSize(20);
+    textSize(50);
+    text(winnerTxt, 750, 60);
   }
 
 
