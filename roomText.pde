@@ -114,4 +114,9 @@ int[][]downTreeData = {
   {brn, brn, brn, brn}, 
 };
 
+String rm9txt = "You have re entered the house. You can hear loud noises coming from your east\n"
+    +           "You might want to prepare for a fight";
+    
+    
+String rm11txt = "Oh no! Two gargantuan farmers approach! You must fight them off with your crowbar!";
 String winnerTxt = "You escape! You have been reunited with your chicken friends!";

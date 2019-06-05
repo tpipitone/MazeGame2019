@@ -2,7 +2,7 @@ boolean door2open = false;
 boolean door6open = false; 
 boolean window7open = false; 
 boolean treeDown = false;
-
+boolean door11to12Open = false; 
 int inventoryLocation = 0; 
 
 
@@ -14,11 +14,8 @@ void keyReleased() {
 
 
 void keyPressed() {
-  //println("COL: " + player1.col() + " ROW: " +  player1.row());
   textFont(font_bold);
   textSize(20);
-
-
 
   if (key== 'w') {
     player1.updateRow(-1);
@@ -33,20 +30,13 @@ void keyPressed() {
     pPressed = true;
   }
 
-
-
-  if (key == 'q') {
+  if (key == 'q') {                                                ///switches inventory
     if (inventoryLocation ==  inventory.size() - 1) { // resets
       inventoryLocation = 0;
     } else {
       inventoryLocation++; // sets inventory location when q pressed
     }
   }
-
-
-
-
-
 
   if (inRoom == 1) {
 
@@ -64,9 +54,6 @@ void keyPressed() {
       door2open = true;
     }
 
-
-
-
     if (player1.row() >= 30 && player1.col() == 0 && key == 'e') { //adding to room 2
 
       room2.set_active(true);
@@ -74,6 +61,7 @@ void keyPressed() {
       room1.removeItem(player1);
       room1.set_active(false); 
       room2.addItem(player1, 1, 0);
+      
     } else if (player1.row() >= 0 && player1.col() == 30 && key == 'e') {
 
       if (door2open) {
@@ -134,6 +122,7 @@ void keyPressed() {
   }
 
   if (inRoom == 5) {
+
     if (itemInteract(player1, prep_door2, 'e') ) {
       room4.set_active(true);
       inRoom = 4;
@@ -166,6 +155,7 @@ void keyPressed() {
 
 
   if (inRoom == 4) {
+
     if (player1.row() >= 30 && player1.col() == 0 && room4.isActive() && key == 'e') { //room 4
       room3.set_active(true);
       inRoom = 3;
@@ -191,6 +181,7 @@ void keyPressed() {
 
 
   if (inRoom == 6 ) {
+
     if (itemInteract(player1, door6to7, 'e')) {
       room7.set_active(true);
       inRoom = 7;
@@ -227,6 +218,7 @@ void keyPressed() {
   }
 
   if (inRoom == 8) {
+
     if (itemInteract(player1, doorShedto20, 'e')) {
       room20.set_active(true);
       inRoom = 20;
@@ -234,6 +226,7 @@ void keyPressed() {
       room8.set_active(false);
       room20.addItem(player1, 0, 79);
     }
+
     if (itemInteract(player1, gasCan, 'e')) {
       player1.addInventory(gasCan);
       room8.removeItem(gasCan);
@@ -248,6 +241,7 @@ void keyPressed() {
 
 
   if (inRoom == 20) {
+
     if (itemInteract(player1, door20toShed, 'e')) {
       room8.set_active(true);
       inRoom = 8;
@@ -273,6 +267,7 @@ void keyPressed() {
   }
 
   if (inRoom == 9) {
+
     if (itemInteract(player1, door9to10, 'e')) {
       room10.set_active(true);
       inRoom = 10;
@@ -281,6 +276,7 @@ void keyPressed() {
       room10.addItem(player1, 0, 0);
     }
   }
+
   if (inRoom == 10) {
     if (itemInteract(player1, door10to11, 'e')) {
       room11.set_active(true);
@@ -292,12 +288,29 @@ void keyPressed() {
   }
 
   if (inRoom == 11) {
-    if (itemInteract(player1, door11to12, 'e')) {
+
+    if (itemInteract(player1, door11to12, 'e') && door11to12Open) {
       room12.set_active(true);
       inRoom = 12;
       room11.removeItem(player1);
       room11.set_active(false);
       room12.addItem(player1, 20, 0);
+    } 
+
+    if (itemInteract(player1, feed3, 'e')) {
+      player1.health = 100;
+    }
+
+    if (onEnemy(finalGoon1) && key == 'x' && (inventory.get(inventoryLocation) == crowbar || inventory.get(inventoryLocation) == chainsaw)) {   // if touching enemy lower health
+      finalGoon1.enemyHealth-=20;
+      if (finalGoon1.enemyHealth == 0) {
+        room11.removeItem(finalGoon1);
+      }
+    } else if (onEnemy(finalGoon2) && key == 'x' && (inventory.get(inventoryLocation) == crowbar || inventory.get(inventoryLocation) == chainsaw)) {
+      finalGoon2.enemyHealth-=20;
+      if (finalGoon2.enemyHealth == 0) {
+        room11.removeItem(finalGoon2);
+      }
     }
   }
 }

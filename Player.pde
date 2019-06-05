@@ -22,7 +22,6 @@ public class Player extends RoomItem {
     RoomItem onThis = null; 
     for (RoomItem item : inventory) {
       if (onItem(item)) {
-        System.out.print("SCWOOP");
         onThis = item;
       }
       
